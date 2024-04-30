@@ -1,6 +1,12 @@
-# Quizz OpenTDB
+# Quizz com API do OpenTDB
 
-## Projeto com o objetivo de testar funcionalidades de API,  RecycleView, Fragment UI e Room Databae com DAO em Kotlin
+## Projeto CSM43 - Programação para dispositivos móveis e sem fio 2024.1 UTFPR
+## Documento: 
+- https://www.overleaf.com/project/661f12a59aafb5b2891acc43
+## Integrantes:
+- MATEUS OLIVEIRA DOS SANTOS
+- MURILO BRASIL CORDEIRO
+- SEBASTIÃO ANTÔNIO ARAUJO NETO
 
 ## Tecnologias usadas
 ```
