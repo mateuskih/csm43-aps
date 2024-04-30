@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/navigation_graph"
+            app:startDestination="@id/mainFragment">
+
+    <fragment android:id="@+id/loginFragment" android:name="br.edu.utfpr.aps.LoginFragment"
+              android:label="fragment_login" tools:layout="@layout/fragment_login">
+        <action android:id="@+id/loginToRegister" app:destination="@id/registerFragment"/>
+        <action android:id="@+id/loginToRaking" app:destination="@id/rankingFragment"/>
+        <action android:id="@+id/loginToSetting" app:destination="@id/settingFragment"/>
+    </fragment>
+    <fragment android:id="@+id/registerFragment" android:name="br.edu.utfpr.aps.RegisterFragment"
+              android:label="fragment_register" tools:layout="@layout/fragment_register">
+        <action android:id="@+id/registerToLogin" app:destination="@id/loginFragment"/>
+    </fragment>
+    <fragment android:id="@+id/jogoFragment" android:name="br.edu.utfpr.aps.JogoFragment"
+              android:label="fragment_jogo" tools:layout="@layout/fragment_jogo">
+        <action android:id="@+id/jogoToMenu" app:destination="@id/menuFragment"/>
+    </fragment>
+    <fragment android:id="@+id/settingFragment" android:name="br.edu.utfpr.aps.SettingFragment"
+              android:label="fragment_setting" tools:layout="@layout/fragment_setting">
+        <action android:id="@+id/settingToJogo" app:destination="@id/jogoFragment"/>
+    </fragment>
+    <fragment android:id="@+id/rankingFragment" android:name="br.edu.utfpr.aps.RankingFragment"
+              android:label="fragment_ranking" tools:layout="@layout/fragment_ranking"/>
+    <fragment android:id="@+id/menuFragment" android:name="br.edu.utfpr.aps.MenuFragment"
+              android:label="fragment_menu" tools:layout="@layout/fragment_menu">
+        <action android:id="@+id/menuToJogo" app:destination="@id/jogoFragment"/>
+        <action android:id="@+id/menuToLogin" app:destination="@id/loginFragment"/>
+        <action android:id="@+id/menuToRanking" app:destination="@id/rankingFragment"/>
+        <action android:id="@+id/menuToSetting" app:destination="@id/settingFragment"/>
+    </fragment>
+    <fragment android:id="@+id/mainFragment" android:name="br.edu.utfpr.aps.MainFragment"
+              android:label="fragment_main" tools:layout="@layout/fragment_main">
+        <action android:id="@+id/mainToLogin" app:destination="@id/loginFragment"/>
+    </fragment>
+</navigation>
