@@ -55,5 +55,5 @@ interface UsuarioService {
     ): Call<LoginResponse>
 
 
-
+    fun testeLogin(email: String, senha: String): Call<LoginResponse>
 }

@@ -36,6 +36,8 @@ import android.widget.Button
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import br.edu.utfpr.aps.app.MainActivity
+import br.edu.utfpr.aps.bd.DatabaseClient
+import br.edu.utfpr.aps.bd.dao.UsuarioDao
 import java.util.*
 
 
@@ -52,17 +54,16 @@ class JogoFragment : Fragment() {
     lateinit var email: String
     lateinit var senha: String
     lateinit var pontuacao: String
-    lateinit var dificuldade: String
-    lateinit var categoria: String
     lateinit var type: String
     lateinit var countDownTimer: CountDownTimer
+    lateinit var dificuldade: String
+    lateinit var categoria: String
     var pontosA: Int = 0
     var pontosE: Int = 0
     var pontosPulo: Int = 0
-    lateinit var db: AppDatabase
-    lateinit var perguntasDao: PerguntaDao
 
-
+    private val perguntasDao: PerguntaDao by lazy { DatabaseClient.getPerguntaDao(requireContext()) }
+    private val usuarioDao: UsuarioDao by lazy { DatabaseClient.getUsuarioDao(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,18 +75,22 @@ class JogoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         configureRetrofit()
-        instanciarBdLocal()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         prefs = PreferenceManager.getDefaultSharedPreferences(activity)
-        email = prefs.getString("email", "")
-        senha = prefs.getString("senha", "")
-        pontuacao = prefs.getString("pontos", "")
-        dificuldade = prefs.getString("dificuldade", "")
-        categoria = prefs.getString("categoria", "")
+        email = prefs.getString("email", "")!!
+        senha = prefs.getString("senha", "")!!
+        pontuacao = prefs.getString("pontos", "")!!
+        dificuldade = prefs.getString("dificuldade", "")!!
+        categoria = prefs.getString("categoria", "")!!
+
+        if(categoria.isNullOrEmpty() || dificuldade.isNullOrEmpty()){
+            categoria = "10"
+            dificuldade = "medium"
+        }
 
         when (dificuldade) {
             "easy" -> {
@@ -116,39 +121,32 @@ class JogoFragment : Fragment() {
         txtJogoEmail.text = email
         txtJogoPontos.text = pontuacao
 
-        btJogoA1.setOnClickListener {
-            conferirResposta(btJogoA1.text.toString(), alternativaCorreta, btJogoA1)
+        val botoes = listOf(btJogoA1, btJogoA2, btJogoA3, btJogoA4)
 
-        }
-
-        btJogoA2.setOnClickListener {
-            conferirResposta(btJogoA2.text.toString(), alternativaCorreta, btJogoA2)
-        }
-
-        btJogoA3.setOnClickListener {
-            conferirResposta(btJogoA3.text.toString(), alternativaCorreta, btJogoA3)
-        }
-
-        btJogoA4.setOnClickListener {
-            conferirResposta(btJogoA4.text.toString(), alternativaCorreta, btJogoA4)
+        botoes.forEach { botao ->
+            botao.setOnClickListener {
+                conferirResposta(botao.text.toString(), alternativaCorreta, botao)
+            }
         }
 
         btMaisTarde.setOnClickListener {
-            var list = listOf<String>()
-            if (type == "boolean"){
-                list = listOf(alternativa1)
+            val alternativas = if (type == "boolean") {
+                listOf(alternativa1)
+            } else {
+                listOf(alternativa1, alternativa2, alternativa3)
             }
-            else{
-                list = listOf(alternativa1, alternativa2, alternativa3)
-            }
-            val pergunta = Question(categoria, type, dificuldade, questao, alternativaCorreta, list)
+
+            val pergunta = Question(categoria, type, dificuldade, questao, alternativaCorreta, alternativas)
             perguntasDao.inserir(pergunta)
-            getString(R.string.jogo_skip_question)
-            Toast.makeText(activity, getString(R.string.jogo_question_skiped) + pontosPulo + getString(R.string.jogo_points), Toast.LENGTH_SHORT).show()
+
+            val mensagemPulo = getString(R.string.jogo_question_skiped) + pontosPulo + getString(R.string.jogo_points)
+            Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+
             pontuar(email, senha, pontosPulo)
             countDownTimer.cancel()
-            val nav = Navigation.findNavController(this@JogoFragment.activity!!, R.id.fragmentContent)
-            nav.navigate(R.id.jogoToMenu)
+
+            val navController = Navigation.findNavController(requireActivity(), R.id.fragmentContent)
+            navController.navigate(R.id.jogoToMenu)
         }
     }
 
@@ -161,18 +159,13 @@ class JogoFragment : Fragment() {
                 val resposta = response.body()!!.results[0]
                 type = resposta.type
                 montarQuestion(resposta, dificuldade)
+                println(resposta)
                 countDownTimer.start()
             }
         })
     }
 
     private fun configureRetrofit() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://tads2019-todo-list.herokuapp.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        service = retrofit.create(UsuarioService::class.java)
-
         val retrofitJogo = Retrofit.Builder()
             .baseUrl("https://opentdb.com/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -182,26 +175,18 @@ class JogoFragment : Fragment() {
 
 
     private fun pontuar(email: String, senha: String, pontos: Int) {
-        service.pontuar(email, senha, pontos).enqueue(object : Callback<LoginResponse> {
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Log.e("ERRO", t.message, t)
-            }
-
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                val resposta = response.body()
-                if (resposta != null)
-                    if (resposta.sucesso){
-                        pontuacao = resposta.pontuacao.toString()
-                        Toast.makeText(activity, pontuacao + getString(R.string.jogo_points), Toast.LENGTH_SHORT).show()
-                        prefs = PreferenceManager.getDefaultSharedPreferences(activity)
-                        prefs.edit().putString("pontos", pontuacao).apply()
-                    }
-            }
-        })
+        val response = usuarioDao.pontuar(email, senha, pontos);
+        if(response == 1){
+            pontuacao = usuarioDao.getPontuacao(email, senha).toString()
+            Toast.makeText(activity, pontos.toString(), Toast.LENGTH_SHORT).show()
+            prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+            prefs.edit().putString("pontos", pontuacao).apply()
+        }
     }
 
     private fun montarTimer(difficulty: String){
         var tempo: Long
+
         if (difficulty == "easy"){
             tempo = 45000
         }
@@ -211,6 +196,7 @@ class JogoFragment : Fragment() {
         else{
             tempo = 15000
         }
+
         countDownTimer = object : CountDownTimer(tempo, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 txtJogoTimer.text = ""+millisUntilFinished / 1000
@@ -226,17 +212,6 @@ class JogoFragment : Fragment() {
 
     }
 
-    private fun instanciarBdLocal(){
-        db = Room.databaseBuilder(
-            activity!!.applicationContext,
-            AppDatabase::class.java,
-            "perguntas.db"
-        )
-            .allowMainThreadQueries()
-            .build()
-        perguntasDao = db.perguntaDao()
-
-    }
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -259,16 +234,6 @@ class JogoFragment : Fragment() {
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(activity, 0, intent, 0)
 
-//        var pintent = PendingIntent.getService(activity, 1, intent, 1)
-//        var alarm: AlarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        var calendar: Calendar = Calendar.getInstance()
-//        calendar.timeInMillis = System.currentTimeMillis()
-//        calendar.set(Calendar.HOUR_OF_DAY, 1)
-//        calendar.set(Calendar.MINUTE, 0)
-//        alarm.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pintent)
-//        val timeDay: Long = 24*60
-//        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, timeDay, pintent)
-
         val builder = NotificationCompat.Builder(activity as MainActivity, "teste")
             .setSmallIcon(R.drawable.notify_panel_notification_icon_bg)
             .setContentTitle("Quizap")
@@ -285,7 +250,7 @@ class JogoFragment : Fragment() {
     private fun gerarPerguntasLocais(dificuldade: String){
         btMaisTarde.visibility = View.INVISIBLE
         var pergunta = perguntasDao.buscaTodas().shuffled()
-        if (pergunta.size == 0) {
+        if (pergunta.isEmpty()) {
             Toast.makeText(activity, getString(R.string.jogo_saved_questions), Toast.LENGTH_SHORT).show()
             val nav = Navigation.findNavController(this@JogoFragment.activity!!, R.id.fragmentContent)
             nav.navigate(R.id.jogoToMenu)
@@ -318,7 +283,6 @@ class JogoFragment : Fragment() {
             button.setBackgroundResource(R.drawable.button_correct)
             pontuar(email, senha, pontosA)
             countDownTimer.cancel()
-
         }
         else{
             Toast.makeText(activity, getString(R.string.jogo_incorrect_answer) + pontosE + getString(R.string.jogo_points), Toast.LENGTH_SHORT).show()
@@ -369,5 +333,4 @@ class JogoFragment : Fragment() {
             montarTimer(dificuldade)
         }
     }
-
 }

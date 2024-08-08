@@ -21,5 +21,4 @@ interface PerguntaDao {
     @Delete
     fun apagar(pergunta: Question)
 
-
 }

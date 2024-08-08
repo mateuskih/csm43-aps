@@ -1,6 +1,7 @@
 package br.edu.utfpr.aps.entidades
 
 import androidx.room.TypeConverter
+import java.util.*
 
 class Converters {
     @TypeConverter
@@ -25,4 +26,13 @@ class Converters {
         return result
     }
 
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
+    }
 }

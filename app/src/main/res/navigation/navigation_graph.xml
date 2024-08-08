@@ -9,6 +9,9 @@
         <action android:id="@+id/loginToRegister" app:destination="@id/registerFragment"/>
         <action android:id="@+id/loginToRaking" app:destination="@id/rankingFragment"/>
         <action android:id="@+id/loginToSetting" app:destination="@id/settingFragment"/>
+        <action
+                android:id="@+id/loginToMenu"
+                app:destination="@id/menuFragment" />
     </fragment>
     <fragment android:id="@+id/registerFragment" android:name="br.edu.utfpr.aps.RegisterFragment"
               android:label="fragment_register" tools:layout="@layout/fragment_register">

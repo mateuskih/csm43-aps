@@ -11,12 +11,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
+import androidx.room.Room
+import br.edu.utfpr.aps.bd.AppDatabase
+import br.edu.utfpr.aps.bd.dao.PerguntaDao
+import br.edu.utfpr.aps.bd.dao.UsuarioDao
 import kotlinx.android.synthetic.main.fragment_main.*
 
 
 class MainFragment : Fragment() {
 
     lateinit var prefs: SharedPreferences
+    lateinit var db: AppDatabase
+    lateinit var perguntasDao: PerguntaDao
+    lateinit var usuarioDao: UsuarioDao
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +39,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        instanciarBdLocal();
 
         progressBar.visibility = View.VISIBLE
 
@@ -62,6 +71,18 @@ class MainFragment : Fragment() {
     private fun iniciarJogo(){
         val nav = Navigation.findNavController(this@MainFragment.activity!!, R.id.fragmentContent)
         nav.navigate(R.id.mainToLogin)
+    }
+
+    private fun instanciarBdLocal(){
+        db = Room.databaseBuilder(
+            activity!!.applicationContext,
+            AppDatabase::class.java,
+            "perguntas.db"
+        )
+            .allowMainThreadQueries()
+            .build()
+        perguntasDao = db.perguntaDao()
+        usuarioDao = db.usuarioDao()
     }
 }
 

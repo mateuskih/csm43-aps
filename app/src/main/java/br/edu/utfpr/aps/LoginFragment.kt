@@ -17,11 +17,13 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import androidx.preference.PreferenceManager
+import br.edu.utfpr.aps.bd.DatabaseClient
+import br.edu.utfpr.aps.bd.dao.PerguntaDao
+import br.edu.utfpr.aps.bd.dao.UsuarioDao
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
 class LoginFragment : Fragment() {
-    lateinit var service: UsuarioService
     lateinit var prefs: SharedPreferences
 
     override fun onCreateView(
@@ -39,13 +41,9 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
             prefs = PreferenceManager.getDefaultSharedPreferences(activity)
             if (prefs.contains("email") && prefs.contains(("senha"))){
                 iniciarJogo()
-            }
-            else{
-                configureRetrofit()
             }
 
         btLogin.setOnClickListener {
@@ -61,39 +59,29 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun configureRetrofit() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://tads2019-todo-list.herokuapp.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        service = retrofit.create(UsuarioService::class.java)
-
-    }
 
     private fun login(email: String, senha: String) {
-        service.logar(email, senha).enqueue(object : Callback<LoginResponse> {
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Log.e("ERRO", t.message, t)
-            }
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                val resposta = response.body()!!
-                if (resposta != null)
-                    Toast.makeText(activity, resposta.mensagem,Toast.LENGTH_SHORT).show()
-                    prefs = PreferenceManager.getDefaultSharedPreferences(activity)
-                    prefs.edit().putString("email", email).apply()
-                    prefs.edit().putString("senha", senha).apply()
-                    prefs.edit().putString("pontos", resposta.pontuacao.toString()).apply()
+        val usuarioDao = DatabaseClient.getUsuarioDao(requireContext())
+        val response = usuarioDao.login(email, senha);
 
-                if (resposta.sucesso){
-                    iniciarJogo()
-                }
-            }
-        })
+        if(response != null){
+            Toast.makeText(activity, "Sucesso",Toast.LENGTH_SHORT).show()
+            prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+            prefs.edit().putString("email", email).apply()
+            prefs.edit().putString("senha", senha).apply()
+            prefs.edit().putString("pontos", response.pontuacao.toString()).apply()
+
+            iniciarJogo();
+        }
+        else{
+            Toast.makeText(activity, "email ou senha incorretos",Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun iniciarJogo(){
         val nav = Navigation.findNavController(this@LoginFragment.activity!!, R.id.fragmentContent)
-        nav.navigate(R.id.loginToSetting)
+        nav.navigate(R.id.loginToMenu)
     }
 
 }
