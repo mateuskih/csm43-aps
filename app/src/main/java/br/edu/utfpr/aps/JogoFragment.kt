@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import br.edu.utfpr.aps.entidades.QuestionsResponse
-import br.edu.utfpr.aps.entidades.LoginResponse
 import br.edu.utfpr.aps.services.UsuarioService
 import br.edu.utfpr.aps.services.JogoService
 import retrofit2.Call
@@ -22,8 +21,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.os.CountDownTimer
 import androidx.navigation.Navigation
-import androidx.room.Room
-import br.edu.utfpr.aps.bd.AppDatabase
 import br.edu.utfpr.aps.bd.dao.PerguntaDao
 import br.edu.utfpr.aps.entidades.Question
 import kotlinx.android.synthetic.main.fragment_jogo.*
@@ -38,6 +35,7 @@ import androidx.core.app.NotificationManagerCompat
 import br.edu.utfpr.aps.app.MainActivity
 import br.edu.utfpr.aps.bd.DatabaseClient
 import br.edu.utfpr.aps.bd.dao.UsuarioDao
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -175,7 +173,8 @@ class JogoFragment : Fragment() {
 
 
     private fun pontuar(email: String, senha: String, pontos: Int) {
-        val response = usuarioDao.pontuar(email, senha, pontos);
+        val ultimaPartida = Date()
+        val response = usuarioDao.pontuar(pontos, ultimaPartida, email, senha);
         if(response == 1){
             pontuacao = usuarioDao.getPontuacao(email, senha).toString()
             Toast.makeText(activity, pontos.toString(), Toast.LENGTH_SHORT).show()

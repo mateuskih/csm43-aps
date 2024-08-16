@@ -12,7 +12,8 @@ data class Usuario(
     var pontuacao: Int,
     var partidasJogadas: Int,
     var ultimaPartida: Date?,
-    var admin: Boolean = false
+    var admin: Boolean = false,
+    var foto: ByteArray
 ){
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0

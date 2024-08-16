@@ -124,4 +124,11 @@ class SettingFragment : Fragment(), CategoriaListListener {
         txtSelectCategoria.text = categoria.name
         categ = categoria.id
     }
+
+//    imageByteArray = /* Obtido do banco de dados ou outra fonte */
+//
+//    imageByteArray?.let {
+//        val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+//        displayImageView.setImageBitmap(bitmap) // `displayImageView` é o ID da sua ImageView
+//    }
 }
