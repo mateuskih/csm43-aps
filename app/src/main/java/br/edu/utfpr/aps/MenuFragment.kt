@@ -1,5 +1,6 @@
 package br.edu.utfpr.aps
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
+import br.edu.utfpr.aps.entidades.Usuario
 import kotlinx.android.synthetic.main.fragment_menu.*
 
 
@@ -74,6 +76,17 @@ class MenuFragment : Fragment() {
             nav.navigate(R.id.menuToSetting)
         }
 
+    }
+
+    private fun compartilharTexto(user: Usuario) {
+        val textoParaCompartilhar = "${user.nome} brilhou no Quiz, conquistando ${user.pontuacao} pontos! Desafie-se também e descubra quantas perguntas incríveis você consegue acertar. Venha se divertir!"
+
+        val intentCompartilhar = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, textoParaCompartilhar)
+            type = "text/plain"
+        }
+        startActivity(Intent.createChooser(intentCompartilhar, "Compartilhar via"))
     }
 
 

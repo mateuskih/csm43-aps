@@ -52,7 +52,6 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.1.0-alpha05'
     implementation 'com.android.support:multidex:1.0.3'
 
-
     def room_version = "2.1.0-alpha05"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"

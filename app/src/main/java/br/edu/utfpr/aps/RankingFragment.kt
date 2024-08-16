@@ -1,5 +1,6 @@
 package br.edu.utfpr.aps
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import br.edu.utfpr.aps.bd.DatabaseClient
 import br.edu.utfpr.aps.entidades.RankingResponse
 import br.edu.utfpr.aps.entidades.Usuario
 import br.edu.utfpr.aps.services.UsuarioService
@@ -42,19 +44,7 @@ class RankingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureRetrofit()
         buscaRanking()
-    }
-
-    private fun configureRetrofit() {
-        val gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://tads2019-todo-list.herokuapp.com/")
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-        service = retrofit.create(UsuarioService::class.java)
-
     }
 
     fun configuraRecyclerView(usuarios: List<Usuario>) {
@@ -66,16 +56,10 @@ class RankingFragment : Fragment() {
     }
 
     private fun buscaRanking() {
-        service.ranking().enqueue(object : Callback<RankingResponse> {
-            override fun onFailure(call: Call<RankingResponse>, t: Throwable) {
-                Log.e("ERRO", t.message, t)
-            }
-
-            override fun onResponse(call: Call<RankingResponse>, response: Response<RankingResponse>) {
-                val resposta = response.body()
-                if (resposta != null)
-                    configuraRecyclerView(resposta.ranking)
-            }
-        })
+        val usuarioDao = DatabaseClient.getUsuarioDao(requireContext())
+        var response = usuarioDao.buscarUsuarios();
+        println("aaaaaaaaa"+ response)
+        val usuariosOrdenados = response.sortedByDescending { it.pontuacao }
+        configuraRecyclerView(usuariosOrdenados)
     }
 }
