@@ -5,13 +5,13 @@
     <string name="title_dashboard">Ranking</string>
     <string name="title_home">Home</string>
     <string name="title_settings">Settings</string>
-    <string name="hello_blank_fragment">Olazap</string>
+    <string name="hello">Olá</string>
     <string name="main_conexao">Sem conexão com a internet</string>
     <string name="register_confirm_password">Senhas não coincidem</string>
     <string name="register_confirm">Registrado com sucesso</string>
     <string name="register_fail">Falha no registro</string>
     <string name="jogo_question_skiped">"Pergunta pulada "</string>
-    <string name="jogo_points">" Pontos"</string>
+    <string name="jogo_points">Pontos</string>
     <string name="jogo_end_time">Fim do tempo</string>
     <string name="jogo_saved_questions">Nenhuma pergunta salva</string>
     <string name="jogo_correct_answer">Resposta Correta</string>
@@ -50,4 +50,13 @@
     <string name="main_developers">Desenvolvido por: Quizzz</string>
     <string name="select_menu">Escolha uma opção</string>
     <string name="new_question">Nova Questão</string>
+    <string name="tip">Dica</string>
+    <string name="create_question">Criar Questão</string>
+    <string name="create_category">Criar Categoria</string>
+    <string name="edit_question">Editar Questão</string>
+    <string name="edit_category">Editar Categoria</string>
+    <string name="admin">Admin</string>
+    <string name="question_title">Titulo da questão</string>
+    <string name="answer">Resposta</string>
+    <string name="new_category">Nova categoria</string>
 </resources>

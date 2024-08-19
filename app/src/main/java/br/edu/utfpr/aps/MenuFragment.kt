@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
+import kotlinx.android.synthetic.main.fragment_jogo.*
 import kotlinx.android.synthetic.main.fragment_menu.*
 
 
@@ -27,6 +28,9 @@ import kotlinx.android.synthetic.main.fragment_menu.*
 class MenuFragment : Fragment() {
 
     lateinit var prefs: SharedPreferences
+    lateinit var nome: String
+    lateinit var email: String
+    lateinit var senha: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +46,14 @@ class MenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+
+        nome = prefs.getString("nome", "")!!
+        email = prefs.getString("email", "")!!
+        senha = prefs.getString("senha", "")!!
+
+        txtUserName.text = "email:"+email + " nome: "+nome + " senha: "+senha
 
         btProxJogo.setOnClickListener {
             prefs = PreferenceManager.getDefaultSharedPreferences(activity)
@@ -72,6 +84,11 @@ class MenuFragment : Fragment() {
         btSettings.setOnClickListener {
             val nav = Navigation.findNavController(this@MenuFragment.activity!!, R.id.fragmentContent)
             nav.navigate(R.id.menuToSetting)
+        }
+
+        btAdmin.setOnClickListener {
+            val nav = Navigation.findNavController(this@MenuFragment.activity!!, R.id.fragmentContent);
+            nav.navigate(R.id.menuToAdmin);
         }
 
     }
