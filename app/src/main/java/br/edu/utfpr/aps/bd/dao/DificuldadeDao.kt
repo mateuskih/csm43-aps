@@ -5,21 +5,22 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import br.edu.utfpr.aps.entidades.Categoria
+import br.edu.utfpr.aps.entidades.Dificuldade
 import br.edu.utfpr.aps.entidades.Usuario
 import java.util.*
 
 
 @Dao
-interface CategoriaDao {
+interface DificuldadeDao {
     @Insert
-    fun inserir(categoria: Categoria)
+    fun inserir(dificuldade: Dificuldade)
 
-    @Query("SELECT * FROM categorias")
-    fun buscarCategorias(): List<Categoria>
+    @Query("SELECT * FROM dificuldades")
+    fun buscarCategorias(): List<Dificuldade>
 
-    @Query("SELECT * FROM categorias WHERE id = :id LIMIT 1")
-    fun buscarCategoria(id: Int): Categoria
+    @Query("SELECT * FROM dificuldades WHERE id = :id LIMIT 1")
+    fun buscarCategoria(id: Int): Dificuldade
 
     @Delete
-    fun apagar(categoria: Categoria)
+    fun apagar(dificuldade: Dificuldade)
 }

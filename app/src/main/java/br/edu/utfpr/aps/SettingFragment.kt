@@ -122,7 +122,7 @@ class SettingFragment : Fragment(), CategoriaListListener {
 
     override fun getCategoria(categoria: Categoria) {
         txtSelectCategoria.text = categoria.name
-        categ = categoria.id
+        categ = categoria.id.toInt()
     }
 
 //    imageByteArray = /* Obtido do banco de dados ou outra fonte */

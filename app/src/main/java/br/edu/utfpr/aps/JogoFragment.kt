@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.fragment_jogo.*
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Handler
 import android.widget.Button
@@ -40,7 +41,6 @@ import java.util.*
 
 
 class JogoFragment : Fragment() {
-    lateinit var service: UsuarioService
     lateinit var serviceJogo: JogoService
     lateinit var prefs: SharedPreferences
     lateinit var questao: String
@@ -119,32 +119,36 @@ class JogoFragment : Fragment() {
         txtJogoEmail.text = email
         txtJogoPontos.text = pontuacao
 
-        val botoes = listOf(btJogoA1, btJogoA2, btJogoA3, btJogoA4)
+        var botoes = listOf(btJogoA1, btJogoA2, btJogoA3, btJogoA4)
 
         botoes.forEach { botao ->
             botao.setOnClickListener {
                 conferirResposta(botao.text.toString(), alternativaCorreta, botao)
+                desativarOutrosBotoes(botoes, botao)
             }
         }
 
         btMaisTarde.setOnClickListener {
-            val alternativas = if (type == "boolean") {
-                listOf(alternativa1)
-            } else {
-                listOf(alternativa1, alternativa2, alternativa3)
-            }
-
-            val pergunta = Question(categoria, type, dificuldade, questao, alternativaCorreta, alternativas)
-            perguntasDao.inserir(pergunta)
-
-            val mensagemPulo = getString(R.string.jogo_question_skiped) + pontosPulo + getString(R.string.jogo_points)
-            Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
-
+            botoes = gerarDica(botoes, alternativaCorreta)
             pontuar(email, senha, pontosPulo)
-            countDownTimer.cancel()
 
-            val navController = Navigation.findNavController(requireActivity(), R.id.fragmentContent)
-            navController.navigate(R.id.jogoToMenu)
+//            val alternativas = if (type == "boolean") {
+//                listOf(alternativa1)
+//            } else {
+//                listOf(alternativa1, alternativa2, alternativa3)
+//            }
+//
+//            val pergunta = Question(categoria, type, dificuldade, questao, alternativaCorreta, alternativas)
+//            perguntasDao.inserir(pergunta)
+//
+//            val mensagemPulo = getString(R.string.jogo_question_skiped) + pontosPulo + getString(R.string.jogo_points)
+//            Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+//
+//            pontuar(email, senha, pontosPulo)
+//            countDownTimer.cancel()
+//
+//            val navController = Navigation.findNavController(requireActivity(), R.id.fragmentContent)
+//            navController.navigate(R.id.jogoToMenu)
         }
     }
 
@@ -157,7 +161,7 @@ class JogoFragment : Fragment() {
                 val resposta = response.body()!!.results[0]
                 type = resposta.type
                 montarQuestion(resposta, dificuldade)
-                println(resposta)
+                println("ralo" + resposta)
                 countDownTimer.start()
             }
         })
@@ -210,7 +214,6 @@ class JogoFragment : Fragment() {
         }
 
     }
-
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -296,6 +299,27 @@ class JogoFragment : Fragment() {
                 nav.navigate(R.id.jogoToMenu)
             }
         }, 5000)
+    }
+
+    fun desativarOutrosBotoes(botoes: List<Button>, botaoClicado: Button) {
+        for (botao in botoes) {
+            botao.isEnabled = botao == botaoClicado
+        }
+    }
+
+    private fun gerarDica(botoes: List<Button>, respostaCorreta: String): List<Button> {
+        val botoesNaoCorretos = botoes.filter { it.text != respostaCorreta }
+
+        val quantidadeParaDesabilitar = (1..minOf(3, botoesNaoCorretos.size)).random()
+
+        val botoesParaDesabilitar = botoesNaoCorretos.shuffled().take(quantidadeParaDesabilitar)
+
+        for (botao in botoesParaDesabilitar) {
+            botao.isEnabled = false
+            botao.setBackgroundResource(R.color.incorrectAnswer)
+        }
+
+        return botoes
     }
 
     private fun montarQuestion(resposta: Question, dificuldade: String){

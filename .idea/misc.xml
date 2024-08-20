@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/drawable/button_incorrect.xml" value="0.2175" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/activity_item_categoria.xml" value="0.1762917933130699" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/activity_item_usuario.xml" value="0.1762917933130699" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_jogo.xml" value="0.1762917933130699" />

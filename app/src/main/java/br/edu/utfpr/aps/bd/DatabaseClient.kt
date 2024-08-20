@@ -5,6 +5,8 @@ import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import br.edu.utfpr.aps.RegisterFragment
+import br.edu.utfpr.aps.bd.dao.CategoriaDao
+import br.edu.utfpr.aps.bd.dao.DificuldadeDao
 import br.edu.utfpr.aps.bd.dao.PerguntaDao
 import br.edu.utfpr.aps.bd.dao.UsuarioDao
 
@@ -20,7 +22,7 @@ object DatabaseClient {
                 AppDatabase::class.java,
                 "quiz_db.db"
             )
-//                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigration()
                 .allowMainThreadQueries()
                 .build().also { instance = it }
         }
@@ -32,6 +34,14 @@ object DatabaseClient {
 
     fun getUsuarioDao(context: Context): UsuarioDao {
         return getDatabase(context).usuarioDao()
+    }
+
+    fun getCategoriaDao(context: Context): CategoriaDao {
+        return getDatabase(context).categoriaDao()
+    }
+
+    fun getDificuldadeDao(context: Context): DificuldadeDao {
+        return getDatabase(context).dificuldadeDao()
     }
 
     val MIGRATION_1_2 = object : Migration(1, 2) {

@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="zapColor1">#075E54</color>
+    <color name="incorrectAnswer">#4f4d4d</color>
 </resources>
