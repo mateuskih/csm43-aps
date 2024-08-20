@@ -17,6 +17,7 @@ import br.edu.utfpr.aps.entidades.Categorias
 import br.edu.utfpr.aps.services.JogoService
 import br.edu.utfpr.aps.ui.CategoriaAdapter
 import br.edu.utfpr.aps.ui.CategoriaListListener
+import kotlinx.android.synthetic.main.fragment_jogo.*
 import kotlinx.android.synthetic.main.fragment_setting.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,7 +34,6 @@ class SettingFragment : Fragment(), CategoriaListListener {
     lateinit var prefs: SharedPreferences
     lateinit var dificuldade: String
     var categ: Int = 0
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
