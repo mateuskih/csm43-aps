@@ -2,13 +2,17 @@ package br.edu.utfpr.aps
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
+import br.edu.utfpr.aps.bd.DatabaseClient
+import br.edu.utfpr.aps.bd.dao.UsuarioDao
 import br.edu.utfpr.aps.entidades.Usuario
 import kotlinx.android.synthetic.main.fragment_jogo.*
 import kotlinx.android.synthetic.main.fragment_menu.*
@@ -33,6 +37,7 @@ class MenuFragment : Fragment() {
     lateinit var nome: String
     lateinit var email: String
     lateinit var senha: String
+    private val usuarioDao: UsuarioDao by lazy { DatabaseClient.getUsuarioDao(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +60,18 @@ class MenuFragment : Fragment() {
         email = prefs.getString("email", "")!!
         senha = prefs.getString("senha", "")!!
 
-        txtUserName.text = "email:"+email + " nome: "+nome + " senha: "+senha
+        txtUserName.text = "Seja bem-vindo "+nome
+
+        val usuario = usuarioDao.login(email, senha);
+        println("ato "+usuario)
+
+        val bitmap = BitmapFactory.decodeByteArray(usuario.foto, 0, usuario.foto.size)
+        val profilePicture: ImageView = view.findViewById(R.id.profilePicture)
+        profilePicture.setImageBitmap(bitmap)
+
+        if(!usuario.admin){
+            btAdmin.visibility = View.INVISIBLE
+        }
 
         btProxJogo.setOnClickListener {
             prefs = PreferenceManager.getDefaultSharedPreferences(activity)
@@ -92,6 +108,7 @@ class MenuFragment : Fragment() {
             val nav = Navigation.findNavController(this@MenuFragment.activity!!, R.id.fragmentContent);
             nav.navigate(R.id.menuToAdmin);
         }
+
 
     }
 

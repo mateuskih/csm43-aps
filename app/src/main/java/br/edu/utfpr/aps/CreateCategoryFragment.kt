@@ -4,9 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import br.edu.utfpr.aps.bd.DatabaseClient
+import br.edu.utfpr.aps.bd.dao.CategoriaDao
+import br.edu.utfpr.aps.entidades.Categoria
+import br.edu.utfpr.aps.entidades.Question
+import kotlinx.android.synthetic.main.fragment_create_category.*
+import kotlinx.android.synthetic.main.fragment_create_question.*
 
 class CreateCategoryFragment : Fragment() {
+
+    private val categoriaDao: CategoriaDao by lazy { DatabaseClient.getCategoriaDao(requireContext()) }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -21,5 +31,15 @@ class CreateCategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        btnSalvar.setOnClickListener {
+            val categoryTitle = editTextTextMultiLine.text.toString()
+
+            val newCategoria: Categoria = Categoria(categoryTitle)
+            categoriaDao.inserir(newCategoria)
+
+            val mensagemPulo = "Categoria criada com sucesso!"
+            Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+        }
     }
 }

@@ -15,6 +15,9 @@ interface PerguntaDao {
     @Query("SELECT * FROM perguntas WHERE id = :id LIMIT 1")
     fun buscaPergunta(id: Int): Question
 
+    @Query("SELECT * FROM perguntas WHERE category = :category")
+    fun buscaPerguntaPorCategoria(category: String): Question
+
     @Insert
     fun inserir(pergunta: Question)
 

@@ -58,6 +58,6 @@
     <string name="edit_category">Edit Category</string>
     <string name="admin">Admin</string>
     <string name="question_title">Question title</string>
-    <string name="answer">Answer</string>
+    <string name="answer">Correct Answer</string>
     <string name="new_category">New category</string>
 </resources>

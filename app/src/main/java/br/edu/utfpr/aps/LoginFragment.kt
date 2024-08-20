@@ -67,8 +67,10 @@ class LoginFragment : Fragment() {
         if(response != null){
             Toast.makeText(activity, "Sucesso",Toast.LENGTH_SHORT).show()
             prefs = PreferenceManager.getDefaultSharedPreferences(activity)
-            prefs.edit().putString("email", email).apply()
-            prefs.edit().putString("senha", senha).apply()
+            prefs.edit().putString("email", response.email).apply()
+            prefs.edit().putString("senha", response.senha).apply()
+            prefs.edit().putString("nome", response.nome).apply()
+            prefs.edit().putString("partidas", response.partidasJogadas.toString()).apply()
             prefs.edit().putString("pontos", response.pontuacao.toString()).apply()
 
             iniciarJogo();

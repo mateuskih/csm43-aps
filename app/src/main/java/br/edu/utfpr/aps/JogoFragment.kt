@@ -3,7 +3,6 @@ package br.edu.utfpr.aps
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.SharedPreferences
-import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,7 +18,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import android.os.CountDownTimer
 import androidx.navigation.Navigation
 import br.edu.utfpr.aps.bd.dao.PerguntaDao
 import br.edu.utfpr.aps.entidades.Question
@@ -28,13 +26,13 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
-import android.os.Handler
+import android.os.*
 import android.widget.Button
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import br.edu.utfpr.aps.app.MainActivity
 import br.edu.utfpr.aps.bd.DatabaseClient
+import br.edu.utfpr.aps.bd.dao.CategoriaDao
 import br.edu.utfpr.aps.bd.dao.UsuarioDao
 import java.time.LocalDateTime
 import java.util.*
@@ -56,12 +54,14 @@ class JogoFragment : Fragment() {
     lateinit var countDownTimer: CountDownTimer
     lateinit var dificuldade: String
     lateinit var categoria: String
+    lateinit var categoriaName: String
     var pontosA: Int = 0
     var pontosE: Int = 0
     var pontosPulo: Int = 0
 
     private val perguntasDao: PerguntaDao by lazy { DatabaseClient.getPerguntaDao(requireContext()) }
     private val usuarioDao: UsuarioDao by lazy { DatabaseClient.getUsuarioDao(requireContext()) }
+    private val categoriaDao: CategoriaDao by lazy { DatabaseClient.getCategoriaDao(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,6 +84,7 @@ class JogoFragment : Fragment() {
         pontuacao = prefs.getString("pontos", "")!!
         dificuldade = prefs.getString("dificuldade", "")!!
         categoria = prefs.getString("categoria", "")!!
+        categoriaName = prefs.getString("categoriaName", "")!!
 
         if(categoria.isNullOrEmpty() || dificuldade.isNullOrEmpty()){
             categoria = "10"
@@ -128,32 +129,53 @@ class JogoFragment : Fragment() {
             }
         }
 
-        btMaisTarde.setOnClickListener {
+        btDica.setOnClickListener {
             botoes = gerarDica(botoes, alternativaCorreta)
+            pontosA -= 3
+            pontosE -= 3
+            pontosPulo -= 3
+
+            //pontuar(email, senha, pontosPulo)
+        }
+
+        btMaisTarde.setOnClickListener {
             pontuar(email, senha, pontosPulo)
 
-//            val alternativas = if (type == "boolean") {
-//                listOf(alternativa1)
-//            } else {
-//                listOf(alternativa1, alternativa2, alternativa3)
-//            }
-//
-//            val pergunta = Question(categoria, type, dificuldade, questao, alternativaCorreta, alternativas)
-//            perguntasDao.inserir(pergunta)
-//
-//            val mensagemPulo = getString(R.string.jogo_question_skiped) + pontosPulo + getString(R.string.jogo_points)
-//            Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
-//
-//            pontuar(email, senha, pontosPulo)
-//            countDownTimer.cancel()
-//
-//            val navController = Navigation.findNavController(requireActivity(), R.id.fragmentContent)
-//            navController.navigate(R.id.jogoToMenu)
+            val alternativas = if (type == "boolean") {
+                listOf(alternativa1)
+            } else {
+                listOf(alternativa1, alternativa2, alternativa3)
+            }
+
+            val pergunta = Question(categoria, type, dificuldade, questao, alternativaCorreta, alternativas)
+            perguntasDao.inserir(pergunta)
+
+            val mensagemPulo = getString(R.string.jogo_question_skiped) + pontosPulo + getString(R.string.jogo_points)
+            Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+
+            pontuar(email, senha, pontosPulo)
+            countDownTimer.cancel()
+
+            val navController = Navigation.findNavController(requireActivity(), R.id.fragmentContent)
+            navController.navigate(R.id.jogoToMenu)
         }
     }
 
     private fun gerarPerguntas(category: Int, dificuldade: String) {
-        serviceJogo.getPerguntas(1, category, dificuldade).enqueue(object : Callback<QuestionsResponse> {
+        val categorias = categoriaDao.buscarCategorias();
+        val filteredCategorias = categorias.filter { it.name == categoriaName }
+
+        if (filteredCategorias.isNotEmpty()){
+            println("categoriaName "+categoriaName)
+            println("categorias "+categorias)
+            println("filtered "+filteredCategorias)
+            val question = perguntasDao.buscaPerguntaPorCategoria(categoriaName)
+            type = question.type
+            montarQuestion(question, dificuldade)
+            countDownTimer.start()
+        }
+        else{
+            serviceJogo.getPerguntas(1, category, dificuldade).enqueue(object : Callback<QuestionsResponse> {
             override fun onFailure(call: Call<QuestionsResponse>, t: Throwable) {
                 Log.e("ERRO", t.message, t)
             }
@@ -164,7 +186,8 @@ class JogoFragment : Fragment() {
                 println("ralo" + resposta)
                 countDownTimer.start()
             }
-        })
+            })
+        }
     }
 
     private fun configureRetrofit() {
@@ -293,11 +316,9 @@ class JogoFragment : Fragment() {
             countDownTimer.cancel()
 
         }
-        Handler().postDelayed({
-            run {
-                val nav = Navigation.findNavController(this@JogoFragment.activity!!, R.id.fragmentContent)
-                nav.navigate(R.id.jogoToMenu)
-            }
+        Handler(Looper.getMainLooper()).postDelayed({
+            val nav = Navigation.findNavController(this@JogoFragment.requireActivity(), R.id.fragmentContent)
+            nav.navigate(R.id.jogoToMenu)
         }, 5000)
     }
 

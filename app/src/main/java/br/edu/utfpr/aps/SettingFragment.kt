@@ -12,12 +12,13 @@ import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import br.edu.utfpr.aps.bd.DatabaseClient
+import br.edu.utfpr.aps.bd.dao.CategoriaDao
 import br.edu.utfpr.aps.entidades.Categoria
 import br.edu.utfpr.aps.entidades.Categorias
 import br.edu.utfpr.aps.services.JogoService
 import br.edu.utfpr.aps.ui.CategoriaAdapter
 import br.edu.utfpr.aps.ui.CategoriaListListener
-import kotlinx.android.synthetic.main.fragment_jogo.*
 import kotlinx.android.synthetic.main.fragment_setting.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,6 +35,9 @@ class SettingFragment : Fragment(), CategoriaListListener {
     lateinit var prefs: SharedPreferences
     lateinit var dificuldade: String
     var categ: Int = 0
+    lateinit var categoriaName: String
+
+    private val categoriaDao: CategoriaDao by lazy { DatabaseClient.getCategoriaDao(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +60,7 @@ class SettingFragment : Fragment(), CategoriaListListener {
             prefs = PreferenceManager.getDefaultSharedPreferences(activity)
             prefs.edit().putString("dificuldade", dificuldade).apply()
             prefs.edit().putString("categoria", categ.toString()).apply()
+            prefs.edit().putString("categoriaName", categoriaName).apply()
             prefs.edit().putString("condicaoJogo", "web").apply()
 
             val nav = Navigation.findNavController(this@SettingFragment.activity!!, R.id.fragmentContent)
@@ -96,8 +101,10 @@ class SettingFragment : Fragment(), CategoriaListListener {
 
             override fun onResponse(call: Call<Categorias>, response: Response<Categorias>) {
                 val resposta = response.body()
-                if (resposta != null)
-                    configuraRecyclerView(resposta.categoria)
+                if (resposta != null){
+                    val categorias = categoriaDao.buscarCategorias();
+                    configuraRecyclerView(resposta.categoria + categorias)
+                }
             }
         })
     }
@@ -123,6 +130,7 @@ class SettingFragment : Fragment(), CategoriaListListener {
     override fun getCategoria(categoria: Categoria) {
         txtSelectCategoria.text = categoria.name
         categ = categoria.id.toInt()
+        categoriaName = categoria.name
     }
 
 //    imageByteArray = /* Obtido do banco de dados ou outra fonte */
