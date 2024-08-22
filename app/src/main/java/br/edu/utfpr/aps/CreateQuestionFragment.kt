@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.TypeConverters
 import br.edu.utfpr.aps.bd.DatabaseClient
 import br.edu.utfpr.aps.bd.dao.CategoriaDao
+import br.edu.utfpr.aps.bd.dao.DificuldadeDao
 import br.edu.utfpr.aps.bd.dao.PerguntaDao
 import br.edu.utfpr.aps.bd.dao.UsuarioDao
-import br.edu.utfpr.aps.entidades.Categoria
-import br.edu.utfpr.aps.entidades.Categorias
-import br.edu.utfpr.aps.entidades.Converters
-import br.edu.utfpr.aps.entidades.Question
+import br.edu.utfpr.aps.entidades.*
 import br.edu.utfpr.aps.services.JogoService
 import br.edu.utfpr.aps.ui.CategoriaAdapter
 import br.edu.utfpr.aps.ui.CategoriaListListener
+import br.edu.utfpr.aps.ui.DificuldadeAdapter
+import br.edu.utfpr.aps.ui.DificuldadeListListener
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.synthetic.main.fragment_create_question.*
 import retrofit2.Call
@@ -30,16 +30,20 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class CreateQuestionFragment : Fragment(), CategoriaListListener {
+class CreateQuestionFragment : Fragment(), CategoriaListListener, DificuldadeListListener {
     lateinit var serviceJogo: JogoService
     lateinit var adapterCategoria: CategoriaAdapter
+    lateinit var adapterDificuldade: DificuldadeAdapter
     lateinit var prefs: SharedPreferences
     lateinit var dificuldade: String
     var categ: Int = 0
     lateinit var categoriaNome: String
+    lateinit var dificuldadeNome: String
+
 
     private val perguntasDao: PerguntaDao by lazy { DatabaseClient.getPerguntaDao(requireContext()) }
     private val categoriaDao: CategoriaDao by lazy { DatabaseClient.getCategoriaDao(requireContext()) }
+    private val dificuldadeDao: DificuldadeDao by lazy { DatabaseClient.getDificuldadeDao(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +55,6 @@ class CreateQuestionFragment : Fragment(), CategoriaListListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        configureRetrofit()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,7 +69,7 @@ class CreateQuestionFragment : Fragment(), CategoriaListListener {
             val answer1 = txtAnswer2.text.toString()
             val answer2 = txtAnswer3.text.toString()
             val answer3 = txtAnswer3.text.toString()
-            dificuldade = radioButtonCkeck()
+            dificuldade = txtCorrectAnswer.text.toString()
             val answersList = listOf(answer1, answer2, answer3)
             
             val newQuestion: Question = Question(categoriaNome, type, dificuldade, questionTitle, correctAnswer, answersList)
@@ -76,17 +79,7 @@ class CreateQuestionFragment : Fragment(), CategoriaListListener {
             Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
         }
 
-
     }
-
-    private fun configureRetrofit() {
-        val retrofitJogo = Retrofit.Builder()
-            .baseUrl("https://opentdb.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        serviceJogo = retrofitJogo.create(JogoService::class.java)
-    }
-
     private fun buscaCategoria() {
 //        serviceJogo.getCategoria().enqueue(object : Callback<Categorias> {
 //            override fun onFailure(call: Call<Categorias>, t: Throwable) {
@@ -100,33 +93,39 @@ class CreateQuestionFragment : Fragment(), CategoriaListListener {
 //            }
 //        })
 
-        val categoriaDao = DatabaseClient.getCategoriaDao(requireContext())
-        var response = categoriaDao.buscarCategorias();
-        configuraRecyclerView(response)
-        println("a2 "+response)
+        val categorias = categoriaDao.buscarCategorias();
+        val dificuldades = dificuldadeDao.buscarDificuldades();
+        configuraRecyclerView(categorias, dificuldades)
     }
 
-    private fun radioButtonCkeck(): String {
-        return if (rbFacil.isChecked){
-            "easy"
-        }else if(rbMedio.isChecked){
-            "medium"
-        } else{
-            "hard"
-        }
-    }
+//    private fun radioButtonCkeck(): String {
+//        return if (rbFacil.isChecked){
+//            "easy"
+//        }else if(rbMedio.isChecked){
+//            "medium"
+//        } else{
+//            "hard"
+//        }
+//    }
 
-    fun configuraRecyclerView(categorias: List<Categoria>) {
+    fun configuraRecyclerView(categorias: List<Categoria>, dificuldades: List<Dificuldade>) {
         adapterCategoria = CategoriaAdapter(categorias.toList(), this)
         listCategories.adapter = adapterCategoria
+        listCategories.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
-        listCategories.layoutManager = LinearLayoutManager(
-            activity, RecyclerView.VERTICAL, false)
+        adapterDificuldade = DificuldadeAdapter(dificuldades.toList(), this)
+        listDificuldades.adapter = adapterDificuldade
+        listDificuldades.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
     }
 
     override fun getCategoria(categoria: Categoria) {
         txtSelected.text = categoria.name
         categoriaNome = categoria.name
         categ = categoria.id.toInt()
+    }
+
+    override fun getDificuldade(dificuldade: Dificuldade) {
+        txtSelectedDificuldade.text = dificuldade.name
+        dificuldadeNome = dificuldade.name
     }
 }
