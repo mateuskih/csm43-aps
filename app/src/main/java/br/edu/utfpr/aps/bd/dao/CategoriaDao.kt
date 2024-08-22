@@ -20,6 +20,9 @@ interface CategoriaDao {
     @Query("SELECT * FROM categorias WHERE id = :id LIMIT 1")
     fun buscarCategoria(id: Int): Categoria
 
+    @Query("UPDATE categorias SET name = :nome WHERE  id = :id")
+    fun alterarCategoria(id: Int, nome: String): Int
+
     @Delete
-    fun apagar(categoria: Categoria)
+    fun apagar(categoria: Categoria): Int
 }

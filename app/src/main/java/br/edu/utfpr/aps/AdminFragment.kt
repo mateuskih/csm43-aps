@@ -44,5 +44,15 @@ class AdminFragment : Fragment() {
             val nav = Navigation.findNavController(this@AdminFragment.activity!!, R.id.fragmentContent);
             nav.navigate(R.id.adminToEditCategory);
         }
+
+        btCreateDificuldade.setOnClickListener {
+            val nav = Navigation.findNavController(this@AdminFragment.activity!!, R.id.fragmentContent);
+            nav.navigate(R.id.adminToCreateDifficulty);
+        }
+
+        btEditDificuldade.setOnClickListener {
+            val nav = Navigation.findNavController(this@AdminFragment.activity!!, R.id.fragmentContent);
+            nav.navigate(R.id.adminToEditDifficulty);
+        }
     }
 }

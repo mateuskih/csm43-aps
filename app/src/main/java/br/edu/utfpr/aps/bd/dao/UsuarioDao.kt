@@ -16,6 +16,9 @@ interface UsuarioDao {
     @Query("SELECT * FROM usuarios WHERE id = :id LIMIT 1")
     fun buscarUsuario(id: Int): Usuario
 
+    @Query("SELECT * FROM usuarios WHERE email = :email LIMIT 1")
+    fun buscarUsuarioByEmail(email: String): Usuario
+
     @Query("SELECT * FROM usuarios WHERE email = :email AND senha = :senha")
     fun login(email: String, senha: String): Usuario
 

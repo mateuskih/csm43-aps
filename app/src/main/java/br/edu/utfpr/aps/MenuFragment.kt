@@ -60,7 +60,8 @@ class MenuFragment : Fragment() {
         email = prefs.getString("email", "")!!
         senha = prefs.getString("senha", "")!!
 
-        txtUserName.text = "Seja bem-vindo "+nome
+        textView13.text = "Seja bem-vindo"
+        txtUserName.text = nome
 
         val usuario = usuarioDao.login(email, senha);
         println("ato "+usuario)

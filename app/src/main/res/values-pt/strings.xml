@@ -27,6 +27,8 @@
     <string name="login_login">Entrar</string>
     <string name="login_register">Registrar</string>
     <string name="register_register">Cadastrar</string>
+    <string name="editar">Editar</string>
+    <string name="deletar">Deletar</string>
     <string name="register_password_confirm">Confirme a Senha</string>
     <string name="register_password">Senha</string>
     <string name="register_name">Nome</string>
@@ -57,6 +59,11 @@
     <string name="edit_category">Editar Categoria</string>
     <string name="admin">Admin</string>
     <string name="question_title">Titulo da questão</string>
+    <string name="answer_correct">Resposta correta</string>
     <string name="answer">Resposta</string>
     <string name="new_category">Nova categoria</string>
+    <string name="create_dificuldade">Criar Dificuldade</string>
+    <string name="edit_dificuldade">Editar Dificuldade</string>
+    <string name="title_categoria">Categoria</string>
+    <string name="title_dificuldade">Dificuldade</string>
 </resources>

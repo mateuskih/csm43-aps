@@ -6,30 +6,32 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.edu.utfpr.aps.R
 import br.edu.utfpr.aps.entidades.Categoria
+import br.edu.utfpr.aps.entidades.Dificuldade
 import kotlinx.android.synthetic.main.activity_item_categoria.view.*
+import kotlinx.android.synthetic.main.activity_item_dificuldade.view.*
 
-class CategoriaAdapter(var categorias: List<Categoria>, private var listener: CategoriaListListener) :
-    RecyclerView.Adapter<CategoriaAdapter.CategoriaViewHolder>() {
+class DificuldadeAdapter(var dificuldades: List<Dificuldade>, private var listener: DificuldadeListListener) :
+    RecyclerView.Adapter<DificuldadeAdapter.DificuldadeViewHolder>() {
 
-    override fun getItemCount() = categorias.size
+    override fun getItemCount() = dificuldades.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        CategoriaViewHolder(
+        DificuldadeViewHolder(
             LayoutInflater
                 .from(parent.context)
-                .inflate(R.layout.activity_item_categoria, parent, false)
+                .inflate(R.layout.activity_item_dificuldade, parent, false)
         )
 
-    override fun onBindViewHolder(holder: CategoriaViewHolder, position: Int) {
-        holder.preencherView(categorias[position])
+    override fun onBindViewHolder(holder: DificuldadeViewHolder, position: Int) {
+        holder.preencherView(dificuldades[position])
     }
 
-    inner class CategoriaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun preencherView(categoria: Categoria) {
-            itemView.txtCategoria.text = categoria.name
+    inner class DificuldadeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun preencherView(dificuldade: Dificuldade) {
+            itemView.txtDificuldade.text = dificuldade.name
 
-            itemView.txtCategoria.setOnClickListener {
-                listener.getCategoria(categoria)
+            itemView.txtDificuldade.setOnClickListener {
+                listener.getDificuldade(dificuldade)
             }
         }
     }

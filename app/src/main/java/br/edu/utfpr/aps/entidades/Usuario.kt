@@ -13,6 +13,7 @@ data class Usuario(
     var partidasJogadas: Int,
     var ultimaPartida: Date?,
     var admin: Boolean = false,
+    var cidade: String,
     var foto: ByteArray
 ){
     @PrimaryKey(autoGenerate = true)

@@ -13,17 +13,21 @@
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/drawable/ic_person_add_black_24dp.xml" value="0.322" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/drawable/ic_send_black_24dp.xml" value="0.322" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/activity_item_categoria.xml" value="0.1762917933130699" />
-        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/activity_item_usuario.xml" value="0.1762917933130699" />
+        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/activity_item_dificuldade.xml" value="0.18115942028985507" />
+        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/activity_item_questao.xml" value="0.18115942028985507" />
+        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/activity_item_usuario.xml" value="0.5755395683453237" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/activity_jogo.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_admin.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_admin.xml" value="0.22" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_create_category.xml" value="0.17831813576494426" />
-        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_create_question.xml" value="0.33" />
+        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_create_difficulty.xml" value="0.18115942028985507" />
+        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_create_question.xml" value="0.25" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_edit_category.xml" value="0.13" />
-        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_edit_question.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_edit_question.xml" value="0.25" />
+        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_editar_category.xml" value="0.33" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_jogo.xml" value="0.1762917933130699" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_login.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_main.xml" value="0.17831813576494426" />
-        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_menu.xml" value="0.25" />
+        <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_menu.xml" value="0.5" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_question.xml" value="0.22" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_ranking.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Mateus/Documents/Quizz-OpenTDB/app/src/main/res/layout/fragment_register.xml" value="0.1762917933130699" />

@@ -8,21 +8,23 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import br.edu.utfpr.aps.bd.DatabaseClient
 import br.edu.utfpr.aps.bd.dao.CategoriaDao
+import br.edu.utfpr.aps.bd.dao.DificuldadeDao
 import br.edu.utfpr.aps.entidades.Categoria
+import br.edu.utfpr.aps.entidades.Dificuldade
 import br.edu.utfpr.aps.entidades.Question
 import kotlinx.android.synthetic.main.fragment_create_category.*
 import kotlinx.android.synthetic.main.fragment_create_question.*
 
-class CreateCategoryFragment : Fragment() {
+class CreateDifficultyFragment : Fragment() {
 
-    private val categoriaDao: CategoriaDao by lazy { DatabaseClient.getCategoriaDao(requireContext()) }
+    private val dificuldadeDao: DificuldadeDao by lazy { DatabaseClient.getDificuldadeDao(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_category, container, false)
+        return inflater.inflate(R.layout.fragment_create_difficulty, container, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,12 +35,12 @@ class CreateCategoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         btnSalvar.setOnClickListener {
-            val categoryTitle = editTextTextMultiLine.text.toString()
+            val difficultyTitle = editTextTextMultiLine.text.toString()
 
-            val newCategoria: Categoria = Categoria(categoryTitle)
-            categoriaDao.inserir(newCategoria)
+            val newDifficulty: Dificuldade = Dificuldade(difficultyTitle)
+            dificuldadeDao.inserir(newDifficulty)
 
-            val mensagemPulo = "Categoria criada com sucesso!"
+            val mensagemPulo = "Dificuldade criada com sucesso!"
             Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
         }
     }

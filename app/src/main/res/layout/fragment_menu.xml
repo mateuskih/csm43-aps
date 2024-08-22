@@ -28,28 +28,29 @@
             android:layout_marginTop="20dp" />
 
     <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_width="143dp"
+            android:layout_height="118dp"
             tools:src="@tools:sample/avatars"
             android:id="@+id/profilePicture"
             tools:srcCompat="@tools:sample/avatars"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtViewx"
             android:layout_marginTop="24dp"
             app:layout_constraintEnd_toStartOf="@+id/textView13"
-            app:layout_constraintHorizontal_bias="0.727" />
+            app:layout_constraintStart_toStartOf="@+id/guideline4" />
 
     <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="149dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtUserName"
-            android:textSize="24sp"
+            android:textSize="16sp"
             android:textColor="@android:color/background_light"
             app:layout_constraintBottom_toTopOf="@+id/btProxJogo"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
-            app:layout_constraintEnd_toEndOf="@+id/textView13"
             app:layout_constraintStart_toStartOf="@+id/textView13"
-            app:layout_constraintHorizontal_bias="0.0" />
+            app:layout_constraintEnd_toStartOf="@+id/guideline9"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.177"
+            android:textStyle="bold" />
 
     <TextView
             android:layout_width="149dp"
@@ -60,9 +61,9 @@
             android:text="@string/hello"
             android:textSize="18sp"
             android:textColor="@android:color/background_light"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp" />
+            app:layout_constraintEnd_toStartOf="@+id/guideline9"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp" />
 
     <Button
             android:text="@string/menu_next_question"
@@ -156,5 +157,19 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_begin="32dp"
+            android:id="@+id/guideline4" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_begin="379dp"
+            android:id="@+id/guideline9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,45 @@
                                                    android:background="@drawable/padrao_layout_telas">
 
     <!-- TODO: Update blank fragment layout -->
+
+    <Button
+            android:text="@string/edit_dificuldade"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btEditDificuldade"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:background="@drawable/roundedbutton"
+            android:textColor="@android:color/background_light"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@+id/btCreateDificuldade"
+            android:layout_marginTop="24dp" />
+
+    <Button
+            android:text="@string/create_dificuldade"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btCreateDificuldade"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:background="@drawable/roundedbutton"
+            android:textColor="@android:color/background_light"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@+id/btEditCategory"
+            android:layout_marginTop="52dp" />
+
     <TextView
             android:text="@string/admin"
             android:layout_width="0dp"

@@ -4,6 +4,10 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/navigation_graph"
             app:startDestination="@id/mainFragment">
 
+    <fragment
+            android:id="@+id/editDifficultyFragment"
+            android:name="br.edu.utfpr.aps.EditDifficultyFragment"
+            android:label="fragment_edit_category" />
     <fragment android:id="@+id/loginFragment" android:name="br.edu.utfpr.aps.LoginFragment"
               android:label="fragment_login" tools:layout="@layout/fragment_login">
         <action android:id="@+id/loginToRegister" app:destination="@id/registerFragment"/>
@@ -41,17 +45,29 @@
         <action
                 android:id="@+id/adminToEditQuestion"
                 app:destination="@id/editQuestionFragment" />
+        <action
+                android:id="@+id/adminToCreateDifficulty"
+                app:destination="@id/createDifficultyFragment" />
+        <action
+                android:id="@+id/adminToEditDifficulty"
+                app:destination="@id/editDifficultyFragment" />
     </fragment>
 
     <fragment android:id="@+id/createQuestionFragment" android:name="br.edu.utfpr.aps.CreateQuestionFragment"
             android:label="fragment_create_question" tools:layout="@layout/fragment_create_question"/>
 
-    <fragment android:id="@+id/editQuestionFragment" android:name="br.edu.utfpr.aps.EditQuestionFragment"
-            android:label="fragment_edit_question" tools:layout="@layout/fragment_edit_question"/>
+    <fragment
+            android:id="@+id/editQuestionFragment"
+            android:name="br.edu.utfpr.aps.EditQuestionFragment"
+            android:label="fragment_edit_question" />
 
     <fragment android:id="@+id/createCategoryFragment" android:name="br.edu.utfpr.aps.CreateCategoryFragment"
             android:label="fragment_create_category" tools:layout="@layout/fragment_create_category"/>
 
+    <fragment
+            android:id="@+id/createDifficultyFragment"
+            android:name="br.edu.utfpr.aps.CreateDifficultyFragment"
+            android:label="fragment_create_difficulty" />
     <fragment android:id="@+id/editCategoryFragment" android:name="br.edu.utfpr.aps.EditCategoryFragment"
             android:label="fragment_edit_category" tools:layout="@layout/fragment_edit_category"/>
 

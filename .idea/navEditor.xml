@@ -19,7 +19,17 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_adminFragment_to_editDifficultyFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="adminToCreateCategory">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="adminToCreateDifficulty">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -49,8 +59,20 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="113" />
-                            <option name="y" value="854" />
+                            <option name="x" value="-109" />
+                            <option name="y" value="850" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="createDifficultyFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="149" />
+                            <option name="y" value="845" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -74,7 +96,19 @@
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="947" />
-                            <option name="y" value="849" />
+                            <option name="y" value="835" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="editDifficultyFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="1210" />
+                            <option name="y" value="850" />
                           </Point>
                         </option>
                       </LayoutPositions>

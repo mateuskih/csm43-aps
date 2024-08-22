@@ -16,11 +16,14 @@ interface DificuldadeDao {
     fun inserir(dificuldade: Dificuldade)
 
     @Query("SELECT * FROM dificuldades")
-    fun buscarCategorias(): List<Dificuldade>
+    fun buscarDificuldades(): List<Dificuldade>
 
-    @Query("SELECT * FROM dificuldades WHERE id = :id LIMIT 1")
-    fun buscarCategoria(id: Int): Dificuldade
+    @Query("SELECT * FROM dificuldades WHERE name = :nome LIMIT 1")
+    fun buscarDificuldade(nome: String): Dificuldade
+
+    @Query("UPDATE dificuldades SET name = :nome WHERE id = :id")
+    fun alterarDificuldade(id: Int, nome: String): Int
 
     @Delete
-    fun apagar(dificuldade: Dificuldade)
+    fun apagar(dificuldade: Dificuldade): Int
 }

@@ -6,30 +6,32 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.edu.utfpr.aps.R
 import br.edu.utfpr.aps.entidades.Categoria
+import br.edu.utfpr.aps.entidades.Question
 import kotlinx.android.synthetic.main.activity_item_categoria.view.*
+import kotlinx.android.synthetic.main.activity_item_questao.view.*
 
-class CategoriaAdapter(var categorias: List<Categoria>, private var listener: CategoriaListListener) :
-    RecyclerView.Adapter<CategoriaAdapter.CategoriaViewHolder>() {
+class QuestaoAdapter(var questoes: List<Question>, private var listener: QuestaoListListener) :
+    RecyclerView.Adapter<QuestaoAdapter.QuestaoViewHolder>() {
 
-    override fun getItemCount() = categorias.size
+    override fun getItemCount() = questoes.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        CategoriaViewHolder(
+        QuestaoViewHolder(
             LayoutInflater
                 .from(parent.context)
-                .inflate(R.layout.activity_item_categoria, parent, false)
+                .inflate(R.layout.activity_item_questao, parent, false)
         )
 
-    override fun onBindViewHolder(holder: CategoriaViewHolder, position: Int) {
-        holder.preencherView(categorias[position])
+    override fun onBindViewHolder(holder: QuestaoViewHolder, position: Int) {
+        holder.preencherView(questoes[position])
     }
 
-    inner class CategoriaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun preencherView(categoria: Categoria) {
-            itemView.txtCategoria.text = categoria.name
+    inner class QuestaoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun preencherView(questao: Question) {
+            itemView.txtQuestao.text = questao.question
 
-            itemView.txtCategoria.setOnClickListener {
-                listener.getCategoria(categoria)
+            itemView.txtQuestao.setOnClickListener {
+                listener.getQuestao(questao)
             }
         }
     }

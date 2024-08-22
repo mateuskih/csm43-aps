@@ -22,7 +22,7 @@ object DatabaseClient {
                 AppDatabase::class.java,
                 "quiz_db.db"
             )
-            //    .fallbackToDestructiveMigration()
+                //.fallbackToDestructiveMigration()
                 .allowMainThreadQueries()
                 .build().also { instance = it }
         }

@@ -1,7 +1,7 @@
 package br.edu.utfpr.aps.ui
 
-import br.edu.utfpr.aps.entidades.Categoria
+import br.edu.utfpr.aps.entidades.Dificuldade
 
-interface CategoriaListListener {
-    fun getCategoria(categoria: Categoria)
+interface DificuldadeListListener {
+    fun getDificuldade(dificuldade: Dificuldade)
 }

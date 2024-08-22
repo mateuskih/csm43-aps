@@ -31,6 +31,7 @@ class RankingAdapter(var usuarios: List<Usuario>) :
             itemView.txtRankingName.text = usuarios.nome
             itemView.txtRankingPontos.text = usuarios.pontuacao.toString()
             itemView.txtRankingJogadas.text = usuarios.partidasJogadas.toString()
+            itemView.txtCity.text = usuarios.cidade
             if(usuarios.ultimaPartida != null){
                 val datef = SimpleDateFormat("dd/MM/yyyy")
                 itemView.txtRankingUltimaVez.text = (datef.format(usuarios.ultimaPartida))

@@ -35,48 +35,61 @@
             android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <EditText
-                    android:layout_width="362dp"
-                    android:layout_height="169dp"
-                    android:inputType="textMultiLine"
-                    android:gravity="start|top"
-                    android:ems="10"
-                    android:id="@+id/editTextTextMultiLine"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHorizontal_bias="0.646"
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="272dp"
+                    android:layout_height="195dp"
+                    android:id="@+id/listElement"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="10dp"
-                    android:textColor="#FFFFFF"
-                    android:hint="@string/new_category" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"></androidx.recyclerview.widget.RecyclerView>
+
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnDeletar"
+                    android:text="@string/deletar"
+                    android:background="@drawable/roundedbutton"
+                    android:textColor="@android:color/background_light"
+                    app:layout_constraintTop_toBottomOf="@+id/txtSelectedElement"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="88dp"
+                    android:layout_marginRight="88dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="0.923" />
 
             <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/btnSalvar"
+                    android:text="@string/editar"
+                    android:background="@drawable/roundedbutton"
+                    android:textColor="@android:color/background_light"
+                    app:layout_constraintTop_toBottomOf="@+id/txtSelectedElement"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginLeft="88dp"
+                    android:layout_marginStart="88dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtSelectedElement"
+                    app:layout_constraintTop_toBottomOf="@+id/listElement"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/register_register"
-                    android:background="@drawable/roundedbutton"
-                    android:textColor="@android:color/background_light" />
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintHorizontal_bias="0.498" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

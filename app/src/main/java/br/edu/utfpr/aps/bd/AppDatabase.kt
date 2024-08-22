@@ -9,7 +9,7 @@ import br.edu.utfpr.aps.bd.dao.PerguntaDao
 import br.edu.utfpr.aps.bd.dao.UsuarioDao
 import br.edu.utfpr.aps.entidades.*
 
-@Database(entities = arrayOf(Usuario::class, Categoria::class, Dificuldade::class, Question::class), version = 3)
+@Database(entities = arrayOf(Usuario::class, Categoria::class, Dificuldade::class, Question::class), version = 4)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun perguntaDao(): PerguntaDao

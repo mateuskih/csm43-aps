@@ -28,6 +28,8 @@
     <string name="login_login">Login</string>
     <string name="login_register">Register</string>
     <string name="register_register">Register</string>
+    <string name="deletar">Delete</string>
+    <string name="editar">Edit</string>
     <string name="register_name">Name</string>
     <string name="register_password">Password</string>
     <string name="register_email">Email</string>
@@ -58,6 +60,11 @@
     <string name="edit_category">Edit Category</string>
     <string name="admin">Admin</string>
     <string name="question_title">Question title</string>
-    <string name="answer">Correct Answer</string>
+    <string name="answer_correct">Correct Answer</string>
+    <string name="answer">Answer</string>
     <string name="new_category">New category</string>
+    <string name="create_dificuldade">Create Difficulty</string>
+    <string name="edit_dificuldade">Edit Difficulty</string>
+    <string name="title_categoria">Category</string>
+    <string name="title_dificuldade">Difficulty</string>
 </resources>

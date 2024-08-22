@@ -8,7 +8,7 @@
         tools:context=".RegisterFragment" android:background="@drawable/padrao_layout_telas">
 
     <TextView
-            android:text="@string/create_category"
+            android:text="@string/create_dificuldade"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/textView14"
@@ -58,7 +58,7 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="10dp"
                     android:textColor="#FFFFFF"
-                    android:hint="@string/new_category" />
+                    android:hint="@string/create_dificuldade" />
 
             <Button
                     android:layout_width="0dp"

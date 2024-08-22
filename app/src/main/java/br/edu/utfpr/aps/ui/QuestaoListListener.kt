@@ -1,7 +1,7 @@
 package br.edu.utfpr.aps.ui
 
-import br.edu.utfpr.aps.entidades.Dificuldade
+import br.edu.utfpr.aps.entidades.Question
 
-interface DificuldadeListListener {
-    fun getDificuldade(dificuldade: Dificuldade)
+interface QuestaoListListener {
+    fun getQuestao(questao: Question)
 }
