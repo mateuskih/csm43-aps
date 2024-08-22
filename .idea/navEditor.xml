@@ -19,11 +19,6 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_adminFragment_to_editDifficultyFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                             <entry key="adminToCreateCategory">
                               <value>
                                 <LayoutPositions />
@@ -44,6 +39,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="adminToEditDifficulty">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="adminToEditQuestion">
                               <value>
                                 <LayoutPositions />
@@ -59,8 +59,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-109" />
-                            <option name="y" value="850" />
+                            <option name="x" value="-85" />
+                            <option name="y" value="839" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -109,6 +109,18 @@
                           <Point>
                             <option name="x" value="1210" />
                             <option name="y" value="850" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="editProfileFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-10" />
+                            <option name="y" value="-998" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -216,6 +228,11 @@
                               </value>
                             </entry>
                             <entry key="menuToLogin">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="menuToProfile">
                               <value>
                                 <LayoutPositions />
                               </value>

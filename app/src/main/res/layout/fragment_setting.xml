@@ -9,65 +9,42 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <TextView
+            android:text="@string/settings_select_difficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:textColor="@android:color/background_light"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp" />
+
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            tools:layout_editor_absoluteX="-16dp"
             android:id="@+id/scrollView2"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/btnSettingAleatorio"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-            <androidx.constraintlayout.widget.Guideline
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/guideline3"
-                    app:layout_constraintGuide_percent="0.5" />
-
-            <TextView
-                    android:text="@string/settings_select_difficulty"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="30sp"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginLeft="8dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="4dp"
-                    android:textStyle="bold"
-                    tools:ignore="TextContrastCheck" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:id="@+id/listCategories"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/radioGroup"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline6"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintVertical_bias="0.0" />
-
-            <androidx.constraintlayout.widget.Guideline
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintGuide_begin="435dp"
-                    android:id="@+id/guideline6" />
 
             <RadioGroup
                     android:layout_width="0dp"
@@ -75,13 +52,10 @@
                     android:id="@+id/radioGroup"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/textView">
+                    app:layout_constraintHorizontal_bias="0.489"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="10dp">
 
                 <RadioButton
                         android:text="@string/settings_easy"
@@ -115,6 +89,33 @@
                         tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
             </RadioGroup>
 
+            <androidx.constraintlayout.widget.Guideline
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline3"
+                    app:layout_constraintGuide_percent="0.5" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/listCategories"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+                    android:layout_marginBottom="24dp"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline6"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintGuide_begin="435dp"
+                    android:id="@+id/guideline6" />
+
             <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -142,14 +143,10 @@
                     android:id="@+id/textView2"
                     android:textSize="18sp"
                     android:textColor="@android:color/background_light"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintTop_toBottomOf="@+id/listCategories"
-                    android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginLeft="8dp"
                     tools:ignore="TextContrastCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

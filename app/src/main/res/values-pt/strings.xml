@@ -66,4 +66,7 @@
     <string name="edit_dificuldade">Editar Dificuldade</string>
     <string name="title_categoria">Categoria</string>
     <string name="title_dificuldade">Dificuldade</string>
+    <string name="confirm">Confirmar</string>
+    <string name="edit_profile">Editar perfil</string>
+    <string name="image">Imagem</string>
 </resources>
