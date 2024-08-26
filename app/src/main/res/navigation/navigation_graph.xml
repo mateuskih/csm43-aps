@@ -64,6 +64,9 @@
     <fragment android:id="@+id/createCategoryFragment" android:name="br.edu.utfpr.aps.CreateCategoryFragment"
             android:label="fragment_create_category" tools:layout="@layout/fragment_create_category"/>
 
+    <fragment android:id="@+id/editProfileFragment" android:name="br.edu.utfpr.aps.EditProfileFragment"
+            android:label="fragment_edit_profile" tools:layout="@layout/fragment_edit_profile"/>
+
     <fragment
             android:id="@+id/createDifficultyFragment"
             android:name="br.edu.utfpr.aps.CreateDifficultyFragment"
@@ -82,6 +85,9 @@
         <action
                 android:id="@+id/menuToAdmin"
                 app:destination="@id/adminFragment" />
+        <action
+                android:id="@+id/menuToProfile"
+                app:destination="@id/editProfileFragment" />
     </fragment>
     <fragment android:id="@+id/mainFragment" android:name="br.edu.utfpr.aps.MainFragment"
               android:label="fragment_main" tools:layout="@layout/fragment_main">
