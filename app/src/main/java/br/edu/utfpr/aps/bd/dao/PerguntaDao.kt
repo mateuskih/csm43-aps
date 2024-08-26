@@ -22,7 +22,7 @@ interface PerguntaDao {
     fun buscaPerguntaPorCategoria(category: String): Question
 
     @Query("UPDATE perguntas SET category = :category, type = :type, difficulty = :difficulty, question = :question, correctAnswer = :correctAnswer, incorrectAnswers = :incorrectAnswers WHERE id = :id")
-    fun alterarPergunta(id: Int, category: String, type: String, difficulty: String, question: String, correctAnswer: String, incorrectAnswers: List<String>): Int
+    fun alterarPergunta(id: Int, category: String, type: String, difficulty: String, question: String, correctAnswer: String, incorrectAnswers: String): Int
 
     @Delete
     fun apagar(pergunta: Question)

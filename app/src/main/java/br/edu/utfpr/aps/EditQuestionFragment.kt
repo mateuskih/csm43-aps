@@ -73,11 +73,13 @@ class EditQuestionFragment : Fragment(), CategoriaListListener, DificuldadeListL
             categoriaNome = txtSelected.text.toString()
             val answersList = listOf(answer1, answer2, answer3)
 
-            val response = perguntasDao.alterarPergunta(questionId, categoriaNome, type, dificuldade, questionTitle, correctAnswer, answersList)
+            val incorrectAnswersString = convertListToString(answersList)
+            val response = perguntasDao.alterarPergunta(questionId, categoriaNome, type, dificuldade, questionTitle, correctAnswer, incorrectAnswersString)
 
             if(response == 1){
                 val mensagemPulo = "Questão criada com sucesso!"
                 Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+                buscaCategoria()
             }
         }
 
@@ -129,5 +131,9 @@ class EditQuestionFragment : Fragment(), CategoriaListListener, DificuldadeListL
         txtAnswer1.setText(question.incorrectAnswers[0])
         txtAnswer2.setText(question.incorrectAnswers[1])
         txtAnswer3.setText(question.incorrectAnswers[2])
+    }
+
+    fun convertListToString(list: List<String>): String {
+        return list.joinToString(separator = ",")
     }
 }
