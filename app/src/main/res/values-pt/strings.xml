@@ -59,4 +59,13 @@
     <string name="question_title">Titulo da questão</string>
     <string name="answer">Resposta</string>
     <string name="new_category">Nova categoria</string>
+    <string name="create_dificuldade">Criar Dificuldade</string>
+    <string name="edit_dificuldade">Editar Dificuldade</string>
+    <string name="title_categoria">Categoria</string>
+    <string name="title_dificuldade">Dificuldade</string>
+    <string name="confirm">Confirmar</string>
+    <string name="edit_profile">Editar perfil</string>
+    <string name="image">Imagem</string>
+    <string name="update">Atualizar</string>
+    <string name="delete">Deletar</string>
 </resources>
