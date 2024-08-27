@@ -69,4 +69,6 @@
     <string name="confirm">Confirmar</string>
     <string name="edit_profile">Editar perfil</string>
     <string name="image">Imagem</string>
+    <string name="update">Atualizar</string>
+    <string name="delete">Deletar</string>
 </resources>

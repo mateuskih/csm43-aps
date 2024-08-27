@@ -70,4 +70,6 @@
     <string name="confirm">Confirm</string>
     <string name="edit_profile">Edit profile</string>
     <string name="image">Image</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
 </resources>
