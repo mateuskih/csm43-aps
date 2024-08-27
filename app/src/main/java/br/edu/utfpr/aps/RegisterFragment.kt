@@ -24,6 +24,7 @@ import androidx.preference.PreferenceManager
 import br.edu.utfpr.aps.bd.DatabaseClient
 import br.edu.utfpr.aps.bd.dao.UsuarioDao
 import br.edu.utfpr.aps.entidades.Usuario
+import br.edu.utfpr.aps.entidades.Validator
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_register.*
@@ -75,27 +76,32 @@ class RegisterFragment : Fragment() {
             val senha2 = txtRegSenha2.text.toString()
             val usuario = usuarioDao.buscarUsuarioByEmail(email)
 
-            if (nome.isEmpty() || email.isEmpty() || senha.isEmpty() || senha2.isEmpty()) {
-                Toast.makeText(activity, "Por favor, preencha todos os campos.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            val validator = Validator(requireContext())
 
-            if (senha.length < 6) {
-                Toast.makeText(activity, "A senha deve ter pelo menos 6 caracteres.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            val inputs = listOf(
+                nome to "Nome não pode ser vazio.",
+                email to "Email não pode ser vazio.",
+                senha to "Senha não pode ser vazia.",
+                senha2 to "Confirmação de senha não pode ser vazia."
+            )
 
-            if (senha != senha2) {
-                Toast.makeText(activity, "As senhas não conferem.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            val additionalChecks = listOf(
+                { senha.length >= 6 },
+                { senha == senha2 },
+                { usuario == null },
+                { imageByteArray != null }
+            )
 
-            if (usuario != null) {
-                Toast.makeText(activity, "Usuário já cadastrado com esse email.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            val errorMessages = listOf(
+                "A senha deve ter pelo menos 6 caracteres.",
+                "As senhas não conferem.",
+                "Usuário já cadastrado com esse email.",
+                "Por favor, insira um foto"
+            )
 
-            registrar(nome, email, senha)
+            if (validator.validate(inputs, additionalChecks, errorMessages)) {
+                registrar(nome, email, senha)
+            }
         }
 
         btnPickImage.setOnClickListener {
@@ -165,6 +171,7 @@ class RegisterFragment : Fragment() {
             Toast.makeText(activity, R.string.register_confirm, Toast.LENGTH_SHORT).show()
             prefs = PreferenceManager.getDefaultSharedPreferences(activity)
             prefs.edit().clear().apply()
+            prefs.edit().putString("nome", nome).apply()
             prefs.edit().putString("email", email).apply()
             prefs.edit().putString("senha", senha).apply()
 

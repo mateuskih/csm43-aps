@@ -65,21 +65,32 @@ class CreateQuestionFragment : Fragment(), CategoriaListListener, DificuldadeLis
             val questionTitle = txtQuestionTitle.text.toString()
             val correctAnswer = txtCorrectAnswer.text.toString()
             val type = "multiple"
-            val answer1 = txtAnswer2.text.toString()
-            val answer2 = txtAnswer3.text.toString()
+            val answer1 = txtAnswer1.text.toString()
+            val answer2 = txtAnswer2.text.toString()
             val answer3 = txtAnswer3.text.toString()
             dificuldade = txtSelectedDificuldade.text.toString()
             categoriaNome = txtSelected.text.toString()
             val answersList = listOf(answer1, answer2, answer3)
 
-            val newQuestion: Question = Question(categoriaNome, type, dificuldade, questionTitle, correctAnswer, answersList)
-            val response = perguntasDao.inserir(newQuestion)
+            val validator = Validator(requireContext())
 
-            if(response != null){
-                val mensagemPulo = "Questão criada com sucesso!"
-                Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+            val inputs = listOf(
+                questionTitle to "Titulo não pode ser vazio.",
+                correctAnswer to "Resposta correta não pode ser vazia.",
+                answer1 to "Altenativa 1 não pode ser vazia.",
+                answer2 to "Altenativa 2 não pode ser vazia.",
+                answer3 to "Altenativa 3 não pode ser vazia."
+            )
+
+            if (validator.validate(inputs)) {
+                val newQuestion: Question = Question(categoriaNome, type, dificuldade, questionTitle, correctAnswer, answersList)
+                val response = perguntasDao.inserir(newQuestion)
+
+                if(response != null){
+                    val mensagemPulo = "Questão criada com sucesso!"
+                    Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+                }
             }
-
         }
 
     }

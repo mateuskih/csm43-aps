@@ -20,6 +20,7 @@ import androidx.preference.PreferenceManager
 import br.edu.utfpr.aps.bd.DatabaseClient
 import br.edu.utfpr.aps.bd.dao.PerguntaDao
 import br.edu.utfpr.aps.bd.dao.UsuarioDao
+import br.edu.utfpr.aps.entidades.Validator
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
@@ -49,8 +50,16 @@ class LoginFragment : Fragment() {
         btLogin.setOnClickListener {
             val email = txtEmail.text.toString()
             val senha = txtSenha.text.toString()
-            login(email, senha)
+            val validator = Validator(requireContext())
 
+            val inputs = listOf(
+                email to "Email não pode ser vazio.",
+                senha to "Senha não pode ser vazia."
+            )
+
+            if (validator.validate(inputs)) {
+                login(email, senha)
+            }
         }
 
         btRegistrar.setOnClickListener (

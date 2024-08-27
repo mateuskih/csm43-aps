@@ -2,6 +2,7 @@ package br.edu.utfpr.aps
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
@@ -13,11 +14,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import br.edu.utfpr.aps.bd.DatabaseClient
 import br.edu.utfpr.aps.bd.dao.UsuarioDao
+import br.edu.utfpr.aps.entidades.Validator
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
+import kotlinx.android.synthetic.main.fragment_edit_question.*
 import kotlinx.android.synthetic.main.fragment_register.*
 import java.io.ByteArrayOutputStream
 
@@ -60,10 +65,76 @@ class EditProfileFragment : Fragment() {
         val usuario = usuarioDao.login(email, senha);
 
         val bitmap = BitmapFactory.decodeByteArray(usuario.foto, 0, usuario.foto.size)
+        imageByteArray = usuario.foto
+
         imageProfile.setImageBitmap(bitmap)
+        txtEditNome.setText(usuario.nome)
+        txtEditEmail.setText(usuario.email)
 
         imageProfile.setOnClickListener {
             showImageOptions()
+        }
+
+        btUpdate.setOnClickListener {
+            val editUserName = txtEditNome.text.toString().takeIf { it != usuario.nome } ?: usuario.nome
+            val editUserEmail = txtEditEmail.text.toString().takeIf { it != usuario.email } ?: usuario.email
+            val editUserSenha = txtEditSenha.text.toString().takeIf { it != usuario.senha } ?: usuario.senha
+            val editUserFoto = imageByteArray.takeIf { it != usuario.foto } ?: usuario.foto
+
+            val validator = Validator(requireContext())
+
+            val inputs = listOf(
+                editUserName to "Nome não pode ser vazio.",
+                editUserEmail to "E-mail não pode ser vazio.",
+                editUserSenha to "Senha não pode ser vazio."
+            )
+
+            val additionalChecks = listOf(
+                { imageByteArray != null }
+            )
+
+            val errorMessages = listOf(
+                "Por favor, insira um foto"
+            )
+
+            if (validator.validate(inputs, additionalChecks, errorMessages)) {
+                val response = usuarioDao.atualizarUsuario(editUserName, editUserEmail, editUserSenha, editUserFoto, usuario.email)
+
+                if (response == 1) {
+                    Toast.makeText(activity, "Dados alterados com sucesso!", Toast.LENGTH_SHORT).show()
+                    prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+                    prefs.edit().clear().apply()
+                    prefs.edit().putString("nome", editUserName).apply()
+                    prefs.edit().putString("email", editUserEmail).apply()
+                    prefs.edit().putString("senha", editUserSenha).apply()
+
+                    val nav = Navigation.findNavController(this@EditProfileFragment.activity!!, R.id.fragmentContent)
+                    nav.navigate(R.id.profileToLogin)
+
+                } else {
+                    Toast.makeText(activity, "Falha ao atualizar os dados", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        btDelete.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Confirmação")
+                .setMessage("Tem certeza que deseja deletar este usuário?")
+                .setPositiveButton("Sim") { dialog, which ->
+                    usuarioDao.apagar(usuario)
+                    prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+                    prefs.edit().clear().apply()
+                    Toast.makeText(activity, "Dados deletados com sucesso!", Toast.LENGTH_SHORT).show()
+
+                    val nav = Navigation.findNavController(this@EditProfileFragment.activity!!, R.id.fragmentContent)
+                    nav.navigate(R.id.profileToLogin)
+                }
+                .setNegativeButton("Não") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
         }
     }
 

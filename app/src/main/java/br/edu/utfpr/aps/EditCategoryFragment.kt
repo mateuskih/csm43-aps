@@ -1,5 +1,6 @@
 package br.edu.utfpr.aps
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import br.edu.utfpr.aps.bd.DatabaseClient
 import br.edu.utfpr.aps.bd.dao.CategoriaDao
 import br.edu.utfpr.aps.entidades.Categoria
 import br.edu.utfpr.aps.entidades.Dificuldade
+import br.edu.utfpr.aps.entidades.Validator
 import br.edu.utfpr.aps.ui.CategoriaAdapter
 import br.edu.utfpr.aps.ui.CategoriaListListener
 import br.edu.utfpr.aps.ui.DificuldadeAdapter
@@ -47,24 +49,42 @@ class EditCategoryFragment : Fragment(), CategoriaListListener {
 
         btnSalvar.setOnClickListener {
             val categoryTitle = txtSelectedElement.text.toString()
-            val response = categoriaDao.alterarCategoria(categ, categoryTitle)
+            val validator = Validator(requireContext())
 
-            if(response == 1){
-                val mensagemPulo = "Categoria alterada com sucesso!"
-                Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
-                buscaCategoria()
+            val inputs = listOf(
+                categoryTitle to "Titulo não pode ser vazio."
+            )
+
+            if (validator.validate(inputs)) {
+                val response = categoriaDao.alterarCategoria(categ, categoryTitle)
+
+                if(response == 1){
+                    val mensagemPulo = "Categoria alterada com sucesso!"
+                    Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+                    buscaCategoria()
+                }
             }
         }
 
         btnDeletar.setOnClickListener {
-            val categoriaDelete: Categoria = categoriaDao.buscarCategoria(categ)
-            val response = categoriaDao.apagar(categoriaDelete)
+            AlertDialog.Builder(requireContext())
+                .setTitle("Confirmação")
+                .setMessage("Tem certeza que deseja deletar esta categoria?")
+                .setPositiveButton("Sim") { dialog, which ->
+                    val categoriaDelete: Categoria = categoriaDao.buscarCategoria(categ)
+                    val response = categoriaDao.apagar(categoriaDelete)
 
-            if(response == 1) {
-                val mensagemPulo = "Categoria deletada com sucesso!"
-                Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
-                buscaCategoria()
-            }
+                    if(response == 1) {
+                        val mensagemPulo = "Categoria deletada com sucesso!"
+                        Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+                        buscaCategoria()
+                    }
+                }
+                .setNegativeButton("Não") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
         }
     }
 

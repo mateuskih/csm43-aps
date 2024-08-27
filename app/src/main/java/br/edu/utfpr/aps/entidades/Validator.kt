@@ -1,38 +1,37 @@
 package br.edu.utfpr.aps.entidades
 
-import androidx.room.TypeConverter
-import java.util.*
+import android.content.Context
+import android.widget.Toast
 
-class Converters {
-    @TypeConverter
-    fun toList(strings: String): List<String> {
-        val list = mutableListOf<String>()
-        val array = strings.split(",")
-        for (s in array) {
-            list.add(s)
-        }
-        return list
-    }
+class Validator(private val context: Context) {
 
-    @TypeConverter
-    fun toString(strings: List<String>): String {
-        var result = ""
-        strings.forEachIndexed { index, element ->
-            result += element
-            if(index != (strings.size-1)){
-                result += ","
+    /**
+     * Valida os inputs e realiza verificações adicionais.
+     * @param inputs Lista de pares (input, mensagem de erro para input vazio).
+     * @param additionalChecks Lista de funções de validação adicionais. Se não for fornecida, será uma lista vazia.
+     * @param errorMessages Lista de mensagens de erro para as verificações adicionais. Se não for fornecida, será uma lista vazia.
+     * @return Retorna true se todos os testes passarem, caso contrário, false.
+     */
+    fun validate(
+        inputs: List<Pair<String, String>>,
+        additionalChecks: List<() -> Boolean> = emptyList(),
+        errorMessages: List<String> = emptyList()
+    ): Boolean {
+        for ((input, message) in inputs) {
+            if (input.isEmpty()) {
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                return false
             }
         }
-        return result
-    }
 
-    @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
-    }
+        for ((index, check) in additionalChecks.withIndex()) {
+            if (!check()) {
+                val errorMessage = errorMessages.getOrElse(index) { "Erro de validação" }
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                return false
+            }
+        }
 
-    @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time
+        return true
     }
 }

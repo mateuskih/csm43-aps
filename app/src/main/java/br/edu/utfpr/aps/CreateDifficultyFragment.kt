@@ -12,6 +12,7 @@ import br.edu.utfpr.aps.bd.dao.DificuldadeDao
 import br.edu.utfpr.aps.entidades.Categoria
 import br.edu.utfpr.aps.entidades.Dificuldade
 import br.edu.utfpr.aps.entidades.Question
+import br.edu.utfpr.aps.entidades.Validator
 import kotlinx.android.synthetic.main.fragment_create_category.*
 import kotlinx.android.synthetic.main.fragment_create_question.*
 
@@ -36,12 +37,19 @@ class CreateDifficultyFragment : Fragment() {
 
         btnSalvar.setOnClickListener {
             val difficultyTitle = editTextTextMultiLine.text.toString()
+            val validator = Validator(requireContext())
 
-            val newDifficulty: Dificuldade = Dificuldade(difficultyTitle)
-            dificuldadeDao.inserir(newDifficulty)
+            val inputs = listOf(
+                difficultyTitle to "Titulo não pode ser vazio."
+            )
 
-            val mensagemPulo = "Dificuldade criada com sucesso!"
-            Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+            if (validator.validate(inputs)) {
+                val newDifficulty: Dificuldade = Dificuldade(difficultyTitle)
+                dificuldadeDao.inserir(newDifficulty)
+
+                val mensagemPulo = "Dificuldade criada com sucesso!"
+                Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

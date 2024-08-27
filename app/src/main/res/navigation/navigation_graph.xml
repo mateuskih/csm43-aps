@@ -65,7 +65,11 @@
             android:label="fragment_create_category" tools:layout="@layout/fragment_create_category"/>
 
     <fragment android:id="@+id/editProfileFragment" android:name="br.edu.utfpr.aps.EditProfileFragment"
-            android:label="fragment_edit_profile" tools:layout="@layout/fragment_edit_profile"/>
+            android:label="fragment_edit_profile" tools:layout="@layout/fragment_edit_profile">
+        <action
+                android:id="@+id/profileToLogin"
+                app:destination="@id/loginFragment" />
+    </fragment>
 
     <fragment
             android:id="@+id/createDifficultyFragment"

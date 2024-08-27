@@ -73,13 +73,25 @@ class EditQuestionFragment : Fragment(), CategoriaListListener, DificuldadeListL
             categoriaNome = txtSelected.text.toString()
             val answersList = listOf(answer1, answer2, answer3)
 
-            val incorrectAnswersString = convertListToString(answersList)
-            val response = perguntasDao.alterarPergunta(questionId, categoriaNome, type, dificuldade, questionTitle, correctAnswer, incorrectAnswersString)
+            val validator = Validator(requireContext())
 
-            if(response == 1){
-                val mensagemPulo = "Questão criada com sucesso!"
-                Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
-                buscaCategoria()
+            val inputs = listOf(
+                questionTitle to "Titulo não pode ser vazio.",
+                correctAnswer to "Resposta correta não pode ser vazia.",
+                answer1 to "Altenativa 1 não pode ser vazia.",
+                answer2 to "Altenativa 2 não pode ser vazia.",
+                answer3 to "Altenativa 3 não pode ser vazia."
+            )
+
+            if (validator.validate(inputs)) {
+                val incorrectAnswersString = convertListToString(answersList)
+                val response = perguntasDao.alterarPergunta(questionId, categoriaNome, type, dificuldade, questionTitle, correctAnswer, incorrectAnswersString)
+
+                if(response == 1){
+                    val mensagemPulo = "Questão editada com sucesso!"
+                    Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+                    buscaCategoria()
+                }
             }
         }
 

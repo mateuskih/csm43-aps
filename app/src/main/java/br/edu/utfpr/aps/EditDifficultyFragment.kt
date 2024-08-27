@@ -1,17 +1,21 @@
 package br.edu.utfpr.aps
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.edu.utfpr.aps.bd.DatabaseClient
 import br.edu.utfpr.aps.bd.dao.DificuldadeDao
 import br.edu.utfpr.aps.entidades.Categoria
 import br.edu.utfpr.aps.entidades.Dificuldade
+import br.edu.utfpr.aps.entidades.Validator
 import br.edu.utfpr.aps.ui.CategoriaAdapter
 import br.edu.utfpr.aps.ui.DificuldadeAdapter
 import br.edu.utfpr.aps.ui.DificuldadeListListener
@@ -46,25 +50,44 @@ class EditDifficultyFragment : Fragment(), DificuldadeListListener {
 
         btnSalvar.setOnClickListener {
             val difficultyTitle = txtSelectedElement.text.toString()
+            val validator = Validator(requireContext())
 
-            val response = dificuldadeDao.alterarDificuldade(dificuldadeId, difficultyTitle)
+            val inputs = listOf(
+                difficultyTitle to "Titulo não pode ser vazio."
+            )
 
-            if(response == 1){
-                val mensagemPulo = "Dificuldade alterada com sucesso!"
-                Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
-                buscaCategoria()
+            if (validator.validate(inputs)) {
+                val response = dificuldadeDao.alterarDificuldade(dificuldadeId, difficultyTitle)
+
+                if(response == 1){
+                    val mensagemPulo = "Dificuldade alterada com sucesso!"
+                    Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+                    buscaCategoria()
+                }
             }
+
         }
 
         btnDeletar.setOnClickListener {
-            val dificuldadeDelete: Dificuldade = dificuldadeDao.buscarDificuldade(dificuldadeNome)
-            val response = dificuldadeDao.apagar(dificuldadeDelete)
+            AlertDialog.Builder(requireContext())
+                .setTitle("Confirmação")
+                .setMessage("Tem certeza que deseja deletar esta dificuldade?")
+                .setPositiveButton("Sim") { dialog, which ->
+                    val dificuldadeDelete: Dificuldade = dificuldadeDao.buscarDificuldade(dificuldadeNome)
+                    val response = dificuldadeDao.apagar(dificuldadeDelete)
 
-            if(response == 1) {
-                val mensagemPulo = "Dificuldade deletada com sucesso!"
-                Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
-                buscaCategoria()
-            }
+                    if(response == 1) {
+                        val mensagemPulo = "Dificuldade deletada com sucesso!"
+                        Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+                        buscaCategoria()
+                    }
+
+                }
+                .setNegativeButton("Não") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
         }
     }
 

@@ -10,6 +10,7 @@ import br.edu.utfpr.aps.bd.DatabaseClient
 import br.edu.utfpr.aps.bd.dao.CategoriaDao
 import br.edu.utfpr.aps.entidades.Categoria
 import br.edu.utfpr.aps.entidades.Question
+import br.edu.utfpr.aps.entidades.Validator
 import kotlinx.android.synthetic.main.fragment_create_category.*
 import kotlinx.android.synthetic.main.fragment_create_question.*
 
@@ -34,12 +35,19 @@ class CreateCategoryFragment : Fragment() {
 
         btnSalvar.setOnClickListener {
             val categoryTitle = editTextTextMultiLine.text.toString()
+            val validator = Validator(requireContext())
 
-            val newCategoria: Categoria = Categoria(categoryTitle)
-            categoriaDao.inserir(newCategoria)
+            val inputs = listOf(
+                categoryTitle to "Titulo não pode ser vazio."
+            )
 
-            val mensagemPulo = "Categoria criada com sucesso!"
-            Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+            if (validator.validate(inputs)) {
+                val newCategoria: Categoria = Categoria(categoryTitle)
+                categoriaDao.inserir(newCategoria)
+
+                val mensagemPulo = "Categoria criada com sucesso!"
+                Toast.makeText(activity, mensagemPulo, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

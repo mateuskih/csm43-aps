@@ -28,8 +28,8 @@ interface UsuarioDao {
     @Delete
     fun apagar(usuario: Usuario)
 
-    @Query("UPDATE usuarios SET nome = :nome, email = :email, senha = :senha and admin = :admin WHERE email = :email")
-    fun atualizarUsuario(nome: String, email: String, senha: String, admin: Boolean): Int
+    @Query("UPDATE usuarios SET nome = :nome, email = :email, senha = :senha, foto = :foto WHERE email = :emailAntigo")
+    fun atualizarUsuario(nome: String, email: String, senha: String, foto: ByteArray, emailAntigo: String): Int
 
     @Query("UPDATE usuarios SET pontuacao = pontuacao + :pontos, ultimaPartida = :ultimaPartida, partidasJogadas = partidasJogadas + 1 WHERE email = :email AND senha = :senha")
     fun pontuar(pontos: Int, ultimaPartida: Date, email: String, senha: String): Int

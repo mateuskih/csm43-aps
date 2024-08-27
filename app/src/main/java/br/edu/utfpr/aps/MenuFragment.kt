@@ -64,7 +64,7 @@ class MenuFragment : Fragment() {
         txtUserName.text = nome
 
         val usuario = usuarioDao.login(email, senha);
-        println("ato "+usuario)
+        println("atoxa "+ usuario)
 
         val bitmap = BitmapFactory.decodeByteArray(usuario.foto, 0, usuario.foto.size)
         val profilePicture: ImageView = view.findViewById(R.id.profilePicture)
