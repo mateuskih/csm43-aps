@@ -37,13 +37,22 @@ class CreateDifficultyFragment : Fragment() {
 
         btnSalvar.setOnClickListener {
             val difficultyTitle = editTextTextMultiLine.text.toString()
+            val validarDificuldade = dificuldadeDao.buscarDificuldade(difficultyTitle)
             val validator = Validator(requireContext())
 
             val inputs = listOf(
                 difficultyTitle to "Titulo não pode ser vazio."
             )
 
-            if (validator.validate(inputs)) {
+            val additionalChecks = listOf(
+                { validarDificuldade == null }
+            )
+
+            val errorMessages = listOf(
+                "Dificuldade já cadastrada com esse nome."
+            )
+
+            if (validator.validate(inputs, additionalChecks, errorMessages)) {
                 val newDifficulty: Dificuldade = Dificuldade(difficultyTitle)
                 dificuldadeDao.inserir(newDifficulty)
 

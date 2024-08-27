@@ -28,6 +28,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.*
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import br.edu.utfpr.aps.app.MainActivity
@@ -77,6 +78,11 @@ class JogoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // BLOQUEAR AÇÃO DE VOLTAR TELA
+            }
+        })
 
         prefs = PreferenceManager.getDefaultSharedPreferences(activity)
         email = prefs.getString("email", "")!!
@@ -130,12 +136,11 @@ class JogoFragment : Fragment() {
         }
 
         btDica.setOnClickListener {
+            btDica.isClickable = false
             botoes = gerarDica(botoes, alternativaCorreta)
             pontosA -= 3
             pontosE -= 3
             pontosPulo -= 3
-
-            //pontuar(email, senha, pontosPulo)
         }
 
         btMaisTarde.setOnClickListener {
@@ -345,6 +350,7 @@ class JogoFragment : Fragment() {
 
     private fun montarQuestion(resposta: Question, dificuldade: String){
         txtJogoSettings.text = "${dificuldade.toUpperCase()} - ${resposta.category}"
+
         if (resposta.type == "boolean"){
             questao = resposta.question
             alternativa1 = resposta.incorrectAnswers[0]

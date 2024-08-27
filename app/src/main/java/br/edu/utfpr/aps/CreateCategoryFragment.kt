@@ -35,13 +35,22 @@ class CreateCategoryFragment : Fragment() {
 
         btnSalvar.setOnClickListener {
             val categoryTitle = editTextTextMultiLine.text.toString()
+            val validarCategoria = categoriaDao.buscarCategoriaByName(categoryTitle)
             val validator = Validator(requireContext())
 
             val inputs = listOf(
                 categoryTitle to "Titulo não pode ser vazio."
             )
 
-            if (validator.validate(inputs)) {
+            val additionalChecks = listOf(
+                { validarCategoria == null }
+            )
+
+            val errorMessages = listOf(
+                "Categoria já cadastrada com esse nome."
+            )
+
+            if (validator.validate(inputs, additionalChecks, errorMessages)) {
                 val newCategoria: Categoria = Categoria(categoryTitle)
                 categoriaDao.inserir(newCategoria)
 
