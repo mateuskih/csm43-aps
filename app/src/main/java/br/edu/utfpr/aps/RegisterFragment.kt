@@ -98,7 +98,6 @@ class RegisterFragment : Fragment() {
             registrar(nome, email, senha)
         }
 
-        // Botão para selecionar imagem da galeria ou tirar foto
         btnPickImage.setOnClickListener {
             showImageOptions()
         }
@@ -151,8 +150,15 @@ class RegisterFragment : Fragment() {
     }
 
     private fun registrar(nome: String, email: String, senha: String) {
+        var startAdmin: Boolean = false
         val usuarioDao = DatabaseClient.getUsuarioDao(requireContext())
-        val usuario = imageByteArray?.let { Usuario(nome, email, senha, 0, 0, null, false, cidade, it) }
+
+        val buscarUsuarios = usuarioDao.buscarUsuarios()
+        if(buscarUsuarios.isEmpty()){
+            startAdmin = true
+        }
+
+        val usuario = imageByteArray?.let { Usuario(nome, email, senha, 0, 0, null, startAdmin, cidade, it) }
         val response = usuario?.let { usuarioDao.inserir(it) }
 
         if (response != null) {
@@ -250,9 +256,4 @@ class RegisterFragment : Fragment() {
             cidade = it.locality ?: "-"
         }
     }
-
-
-
-
-
 }

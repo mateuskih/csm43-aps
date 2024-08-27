@@ -74,6 +74,11 @@ class MenuFragment : Fragment() {
             btAdmin.visibility = View.INVISIBLE
         }
 
+        profilePicture.setOnClickListener {
+            val nav = Navigation.findNavController(this@MenuFragment.activity!!, R.id.fragmentContent)
+            nav.navigate(R.id.menuToProfile)
+        }
+
         btProxJogo.setOnClickListener {
             prefs = PreferenceManager.getDefaultSharedPreferences(activity)
             prefs.edit().putString("condicaoJogo", "web").apply()
@@ -109,7 +114,6 @@ class MenuFragment : Fragment() {
             val nav = Navigation.findNavController(this@MenuFragment.activity!!, R.id.fragmentContent);
             nav.navigate(R.id.menuToAdmin);
         }
-
 
     }
 
